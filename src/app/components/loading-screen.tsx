@@ -103,7 +103,7 @@ export function LoadingScreen({ onComplete, pageReady }: LoadingScreenProps) {
           {displayedText}
         </span>
         <span
-          className={`inline-block w-[3px] md:w-[5px] h-[1em] bg-white ml-1 ${
+          className={`inline-block w-[3px] md:w-[4px] h-[1em] bg-white ml-1 ${
             phase === "paused" ? "animate-pulse" : ""
           }`}
           style={{
