@@ -1,4 +1,3 @@
-import svgFooter from "../imports/svg-q9rxfrhwj9";
 import imgFrame5 from "../assets/24ed2fdde7b0356be69eb847960e469f7c342c23.png";
 import imgFrame6 from "../assets/dea83ccece2367a9ef6dbad9c1009b587db11e08.png";
 import imgHeroMobile from "../assets/hero-portrait-mobile.png";
@@ -9,10 +8,11 @@ import imgGallery4 from "../assets/1d4962aca37671503ec872bfef5995beac3b04ed.png"
 import imgGallery5 from "../assets/527c891f9ca86d362ad4ae91971a26d1d3858c5c.png";
 import imgGallery6 from "../assets/836c9c8d27c743f084e07231013f92330fbbee73.png";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { useLocation } from "react-router";
+import { Link, useLocation } from "react-router";
 import { LoadingScreen } from "./components/loading-screen";
 import { Logo } from "./components/Logo";
 import { NavButton } from "./components/NavButton";
+import { ContactFooter } from "./components/ContactFooter";
 import { WorkProjectSection } from "./components/WorkProjectSection";
 
 const galleryImages = [imgGallery1, imgGallery2, imgGallery3, imgGallery4, imgGallery5, imgGallery6];
@@ -90,7 +90,6 @@ export default function App() {
   const heroParallaxNavRef = useRef<HTMLElement>(null);
   const heroParallaxTitleRef = useRef<HTMLDivElement>(null);
   const heroParallaxMarqueeRef = useRef<HTMLDivElement>(null);
-  const footerCircleParallaxRef = useRef<HTMLDivElement>(null);
   const [heroFullyCovered, setHeroFullyCovered] = useState(false);
   const [loading, setLoading] = useState(true);
   const [pageReady, setPageReady] = useState(false);
@@ -190,10 +189,6 @@ export default function App() {
       const mq = heroParallaxMarqueeRef.current;
       if (mq) mq.style.transform = `translate3d(0, ${y * 0.8}px, 0)`;
 
-      const footerWrap = footerCircleParallaxRef.current;
-      if (footerWrap) {
-        footerWrap.style.transform = `translate3d(0, ${y * 0.05}px, 0)`;
-      }
     };
 
     let ticking = false;
@@ -290,7 +285,7 @@ export default function App() {
               <NavButton
                 variant="dark"
                 label="ABOUT"
-                href="#about"
+                to="/about"
                 className="w-full py-4 [&_p]:text-[18px] [&_p]:md:text-[19px]"
                 onClick={() => setMobileMenuOpen(false)}
               />
@@ -341,7 +336,7 @@ export default function App() {
           <Logo />
           <div className="hidden md:flex gap-3 items-center">
             <NavButton label="WORK" href="#work" />
-            <NavButton label="ABOUT" href="#about" />
+            <NavButton label="ABOUT" to="/about" />
             <NavButton label="CONTACT" href="#contact" />
           </div>
           <MobileMenuHamburgerButton
@@ -434,8 +429,9 @@ export default function App() {
           <p className="font-['Space_Grotesk',sans-serif] text-base text-[#c77840] md:text-lg">
             RECENT WORK
           </p>
-          <div
-            className="bg-[#c77840] flex items-center justify-center px-10 py-16 md:py-20 rounded-full cursor-pointer hover:scale-110 transition-transform duration-300"
+          <Link
+            to="/about"
+            className="group flex cursor-pointer items-center justify-center rounded-full bg-[#c77840] px-10 py-16 no-underline transition-transform duration-300 hover:scale-110 md:py-20"
             onMouseMove={(e) => {
               const rect = e.currentTarget.getBoundingClientRect();
               const x = (e.clientX - rect.left - rect.width / 2) * 0.35;
@@ -446,10 +442,10 @@ export default function App() {
               e.currentTarget.style.transform = "";
             }}
           >
-            <p className="font-['Space_Grotesk',sans-serif] font-bold text-[#2e1f26] text-xl md:text-2xl whitespace-nowrap">
+            <p className="whitespace-nowrap font-['Space_Grotesk',sans-serif] text-xl font-bold text-[#2e1f26] md:text-2xl">
               About Me
             </p>
-          </div>
+          </Link>
         </div>
       </section>
 
@@ -498,102 +494,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer id="contact" className="bg-[#c77840] w-full pt-20 md:pt-[105px] pb-8 md:pb-10 scroll-mt-6">
-        <div className="px-8 md:px-20 lg:px-40">
-          {/* Lets Work Together */}
-          <h2 className="font-['Space_Grotesk',sans-serif] font-bold text-[#2e1f26] text-5xl sm:text-7xl md:text-[88px] md:leading-[1.05]">
-            Lets Work<br />Together
-          </h2>
-
-          {/* Line + Get in Touch — parallax no contentor inteiro para o círculo não descolar das linhas */}
-          <div
-            ref={footerCircleParallaxRef}
-            className="flex items-center mt-[-20px] md:mt-[-30px] relative z-10 will-change-transform [transform:translate3d(0,0,0)]"
-          >
-            <div className="flex-1 h-[2px] bg-[#2e1f26] self-center" />
-            <div className="shrink-0 self-center">
-              <div
-                className="bg-[#2e1f26] flex items-center justify-center rounded-full size-[118px] sm:size-[150px] md:size-[230px] cursor-pointer hover:scale-110 transition-transform duration-300 [transform:translate3d(0,0,0)]"
-                onMouseMove={(e) => {
-                  const rect = e.currentTarget.getBoundingClientRect();
-                  const x = (e.clientX - rect.left - rect.width / 2) * 0.35;
-                  const y = (e.clientY - rect.top - rect.height / 2) * 0.35;
-                  e.currentTarget.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "translate3d(0, 0, 0)";
-                }}
-              >
-                <p className="font-['Space_Grotesk',sans-serif] font-bold text-[#c77840] text-center text-xs leading-tight px-2 sm:text-sm md:text-[26px] md:leading-none md:px-0 md:whitespace-nowrap">
-                  <span className="block md:hidden">
-                    Get in
-                    <br />
-                    Touch
-                  </span>
-                  <span className="hidden md:inline">Get in Touch</span>
-                </p>
-              </div>
-            </div>
-            <div className="h-[2px] w-[60px] shrink-0 self-center bg-[#2e1f26] md:w-[80px]" />
-          </div>
-
-          {/* Contact pills — no mobile, margem positiva para não ficar por baixo do círculo */}
-          <div className="flex flex-wrap gap-3 mt-10 md:mt-[-30px]">
-            <a
-              href="mailto:designby.luiz@outlook.com"
-              className="flex items-center justify-center px-6 md:px-10 py-4 md:py-5 rounded-full border-2 border-[#2e1f26] cursor-pointer hover:bg-[#2e1f26] hover:text-[#c77840] transition-colors group no-underline"
-              aria-label="Enviar email para designby.luiz@outlook.com"
-            >
-              <p className="font-['Space_Grotesk',sans-serif] font-bold text-[#2e1f26] text-base md:text-[19px] whitespace-nowrap group-hover:text-[#c77840]">
-                @designby.luiz@outlook.com
-              </p>
-            </a>
-            <a
-              href="https://wa.me/5541999890036"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center px-6 md:px-10 py-4 md:py-5 rounded-full border-2 border-[#2e1f26] cursor-pointer hover:bg-[#2e1f26] hover:text-[#c77840] transition-colors group no-underline"
-              aria-label="Conversar no WhatsApp"
-            >
-              <p className="font-['Space_Grotesk',sans-serif] font-bold text-[#2e1f26] text-base md:text-[19px] whitespace-nowrap group-hover:text-[#c77840]">
-                +55 41 9 9989-0036
-              </p>
-            </a>
-          </div>
-        </div>
-
-        {/* Bottom bar */}
-        <div className="flex items-center justify-between px-8 md:px-10 mt-20 md:mt-[110px]">
-          <p className="font-['Space_Grotesk',sans-serif] font-bold text-[#2e1f26] text-3xl md:text-[39px]">
-            2026
-          </p>
-          <div className="flex gap-7 items-center">
-            <a
-              href="https://www.behance.net/luizeddossan4"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-[#2e1f26] flex items-center justify-center p-5 rounded-full cursor-pointer hover:opacity-80 transition-opacity"
-              aria-label="Behance — Luiz Eduardo Dos Santos"
-            >
-              <svg className="block size-10" fill="none" viewBox="0 0 40 40" aria-hidden>
-                <path d={svgFooter.p2c927580} fill="#C77840" />
-              </svg>
-            </a>
-            <a
-              href="https://www.linkedin.com/in/luizeduardoeugenio/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-[#2e1f26] flex items-center justify-center p-5 rounded-full cursor-pointer hover:opacity-80 transition-opacity"
-              aria-label="LinkedIn — Luiz Eduardo Eugenio"
-            >
-              <svg className="block size-10" fill="none" viewBox="0 0 40 40" aria-hidden>
-                <path d={svgFooter.p1e28a80} fill="#C77840" />
-              </svg>
-            </a>
-          </div>
-        </div>
-      </footer>
+      <ContactFooter />
     </div>
   );
 }

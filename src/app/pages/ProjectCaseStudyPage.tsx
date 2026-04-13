@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, Navigate, useParams } from "react-router";
 import { getCaseStudy } from "../data/case-studies";
-import { Logo } from "../components/Logo";
-import { NavButton } from "../components/NavButton";
+import { SitePageHeader } from "../components/SitePageHeader";
 
 function MetaBlock({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -51,27 +50,7 @@ export default function ProjectCaseStudyPage() {
 
   return (
     <div className="min-h-screen bg-[#f5f2ee] text-[#2e1f26]">
-      <header className="sticky top-0 z-40 border-b border-[#2e1f26]/8 bg-[#f5f2ee]/90 px-6 py-5 backdrop-blur-md md:px-10 lg:px-16">
-        <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-6">
-          <Link to="/" aria-label="Início" className="no-underline">
-            <Logo />
-          </Link>
-          <nav className="hidden items-center gap-2 md:flex md:gap-3" aria-label="Principal">
-            <span className="relative inline-flex">
-              <NavButton label="WORK" to="/#work" />
-              <span
-                className="pointer-events-none absolute left-1/2 top-full mt-1 h-1 w-1 -translate-x-1/2 rounded-full bg-[#2e1f26]"
-                aria-hidden
-              />
-            </span>
-            <NavButton label="ABOUT" to="/#about" />
-            <NavButton label="CONTACT" to="/#contact" />
-          </nav>
-          <div className="flex md:hidden">
-            <NavButton label="HOME" to="/" className="!px-4 !py-2 [&_span]:text-xs" />
-          </div>
-        </div>
-      </header>
+      <SitePageHeader active="work" />
 
       <main className="mx-auto max-w-[1600px] px-6 pb-24 pt-10 md:px-10 md:pt-14 lg:px-16">
         <h1 className="font-['Space_Grotesk',sans-serif] text-[13vw] font-bold leading-[0.92] tracking-tight text-[#2e1f26] sm:text-[11vw] md:text-[clamp(3.5rem,9vw,7.5rem)] lg:text-[clamp(4rem,7.5vw,8rem)]">
