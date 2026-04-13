@@ -1,4 +1,3 @@
-import svgPaths from "../imports/svg-crr9i1ce9w";
 import svgFooter from "../imports/svg-q9rxfrhwj9";
 import imgFrame5 from "../assets/24ed2fdde7b0356be69eb847960e469f7c342c23.png";
 import imgFrame6 from "../assets/dea83ccece2367a9ef6dbad9c1009b587db11e08.png";
@@ -10,70 +9,37 @@ import imgGallery4 from "../assets/1d4962aca37671503ec872bfef5995beac3b04ed.png"
 import imgGallery5 from "../assets/527c891f9ca86d362ad4ae91971a26d1d3858c5c.png";
 import imgGallery6 from "../assets/836c9c8d27c743f084e07231013f92330fbbee73.png";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useLocation } from "react-router";
 import { LoadingScreen } from "./components/loading-screen";
+import { Logo } from "./components/Logo";
+import { NavButton } from "./components/NavButton";
+import { WorkProjectSection } from "./components/WorkProjectSection";
 
 const galleryImages = [imgGallery1, imgGallery2, imgGallery3, imgGallery4, imgGallery5, imgGallery6];
 
-function Logo() {
-  return (
-    <div className="relative shrink-0 size-[41px] md:size-[36px]">
-      <svg className="block size-full" fill="none" viewBox="0 0 41 41">
-        <g clipPath="url(#clip0)">
-          <path d={svgPaths.p2d46400} fill="#2E1F26" />
-        </g>
-        <defs>
-          <clipPath id="clip0">
-            <rect fill="white" height="41" width="41" />
-          </clipPath>
-        </defs>
-      </svg>
-    </div>
-  );
-}
-
-function NavButton({
-  label,
-  onClick,
-  className = "",
-  variant = "hero",
-}: {
-  label: string;
-  onClick?: () => void;
-  className?: string;
-  /** hero: pills on claro (topo). dark: pills como secções escuras do site */
-  variant?: "hero" | "dark";
-}) {
-  const shell =
-    variant === "dark"
-      ? "border-2 border-[#c77840] hover:bg-[#c77840] hover:border-[#c77840]"
-      : "border-2 border-[#2e1f26] hover:bg-[#2e1f26]";
-  const text =
-    variant === "dark"
-      ? "text-[#c77840] group-hover:text-[#2e1f26]"
-      : "text-[#2e1f26] group-hover:text-white";
-  return (
-    <div
-      role={onClick ? "button" : undefined}
-      tabIndex={onClick ? 0 : undefined}
-      onClick={onClick}
-      onKeyDown={
-        onClick
-          ? (e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                onClick();
-              }
-            }
-          : undefined
-      }
-      className={`flex items-center justify-center px-6 md:px-10 py-2 md:py-2.5 rounded-full cursor-pointer transition-colors group ${shell} ${className}`}
-    >
-      <p className={`font-['Space_Grotesk',sans-serif] font-bold text-sm md:text-[19px] whitespace-nowrap ${text}`}>
-        {label}
-      </p>
-    </div>
-  );
-}
+const workProjects = [
+  {
+    slug: "globaldex",
+    name: "GLOBALDEX",
+    desc: ["REBRAND", "UX|UI"] as string[],
+    images: [imgGallery1, imgGallery2, imgGallery4],
+    viewHref: "/projects/globaldex",
+  },
+  {
+    slug: "gates2b",
+    name: "GATES2B",
+    desc: ["REBRAND", "UX|UI"] as string[],
+    images: [imgGallery2, imgGallery5, imgGallery6],
+    viewHref: "/projects/gates2b",
+  },
+  {
+    slug: "qofrinho",
+    name: "QOFRINHO",
+    desc: ["DESIGN", "&", "DEVELOPMENT"] as string[],
+    images: [imgGallery3, imgGallery1, imgGallery6],
+    viewHref: "/projects/qofrinho",
+  },
+];
 
 /** Mesma linguagem do hamburger fixo (#502506 + traços brancos) */
 function HamburgerIcon({ open }: { open: boolean }) {
@@ -116,6 +82,7 @@ function MobileMenuHamburgerButton({
 }
 
 export default function App() {
+  const location = useLocation();
   const heroRef = useRef<HTMLDivElement>(null);
   const heroParallaxBgRef = useRef<HTMLDivElement>(null);
   const heroParallaxPersonMobileRef = useRef<HTMLImageElement>(null);
@@ -128,6 +95,9 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [pageReady, setPageReady] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const aboutSectionRef = useRef<HTMLElement>(null);
+  const [aboutInView, setAboutInView] = useState(false);
+  const [aboutMotionReduced, setAboutMotionReduced] = useState(false);
 
   useEffect(() => {
     if (!mobileMenuOpen) return;
@@ -156,6 +126,39 @@ export default function App() {
       return () => window.removeEventListener("load", handler);
     }
   }, []);
+
+  useEffect(() => {
+    if (loading) return;
+    const id = location.hash.replace(/^#/, "");
+    if (!id) return;
+    const frame = requestAnimationFrame(() => {
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [loading, location.hash, location.pathname]);
+
+  useEffect(() => {
+    if (loading) return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    setAboutMotionReduced(reduced);
+    if (reduced) {
+      setAboutInView(true);
+      return;
+    }
+    const el = aboutSectionRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setAboutInView(true);
+          obs.disconnect();
+        }
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -10% 0px" },
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [loading]);
 
   /** Parallax via rAF + DOM (sem setState no scroll) = fluido em produção */
   useLayoutEffect(() => {
@@ -280,18 +283,21 @@ export default function App() {
               <NavButton
                 variant="dark"
                 label="WORK"
+                href="#work"
                 className="w-full py-4 [&_p]:text-[18px] [&_p]:md:text-[19px]"
                 onClick={() => setMobileMenuOpen(false)}
               />
               <NavButton
                 variant="dark"
                 label="ABOUT"
+                href="#about"
                 className="w-full py-4 [&_p]:text-[18px] [&_p]:md:text-[19px]"
                 onClick={() => setMobileMenuOpen(false)}
               />
               <NavButton
                 variant="dark"
                 label="CONTACT"
+                href="#contact"
                 className="w-full py-4 [&_p]:text-[18px] [&_p]:md:text-[19px]"
                 onClick={() => setMobileMenuOpen(false)}
               />
@@ -334,9 +340,9 @@ export default function App() {
         >
           <Logo />
           <div className="hidden md:flex gap-3 items-center">
-            <NavButton label="WORK" />
-            <NavButton label="ABOUT" />
-            <NavButton label="CONTACT" />
+            <NavButton label="WORK" href="#work" />
+            <NavButton label="ABOUT" href="#about" />
+            <NavButton label="CONTACT" href="#contact" />
           </div>
           <MobileMenuHamburgerButton
             open={mobileMenuOpen}
@@ -352,7 +358,7 @@ export default function App() {
           ref={heroParallaxTitleRef}
           className="relative z-10 w-full flex justify-end px-10 md:px-40 will-change-transform"
         >
-          <p className="font-['Space_Grotesk',sans-serif] font-bold text-[#2e1f26] text-3xl md:text-[46px] md:leading-tight text-left">
+          <p className="font-['Space_Grotesk',sans-serif] font-bold text-[#2e1f26] text-3xl md:text-[32px] lg:text-[34px] md:leading-tight text-left">
             FREELANCE
             <br />
             DESIGNER UX|UI
@@ -378,11 +384,19 @@ export default function App() {
       </div>
 
       {/* About Section */}
-      <section className="bg-[#2e1f26] relative w-full px-8 md:px-20 lg:px-40 pt-32 md:pt-48 pb-10">
+      <section
+        id="about"
+        ref={aboutSectionRef}
+        className="relative w-full scroll-mt-6 bg-[#2e1f26] px-8 pb-10 pt-32 md:px-20 md:pt-48 lg:px-40"
+      >
         {/* Content */}
-        <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 mb-24 md:mb-40">
-          <div className="lg:w-[55%]">
-            <p className="font-['Space_Grotesk',sans-serif] font-bold text-[#c77840] text-xl sm:text-2xl md:text-[29px] md:leading-snug">
+        <div className="mb-24 flex flex-col gap-12 md:mb-40 lg:flex-row lg:gap-20">
+          <div
+            className={`lg:w-[55%] ${
+              aboutMotionReduced ? "" : "transition-[opacity,transform] duration-[850ms] ease-out"
+            } ${aboutInView ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
+          >
+            <p className="font-['Space_Grotesk',sans-serif] text-xl font-bold text-[#c77840] sm:text-2xl md:text-[29px] md:leading-snug">
               Helping brands turn complexity into clarity through design.
               <br />
               Together we build products that scale, convert and feel effortless.
@@ -390,8 +404,17 @@ export default function App() {
               No noise, just thoughtful UX and sharp UI.
             </p>
           </div>
-          <div className="lg:w-[45%] flex items-center">
-            <p className="font-['Space_Grotesk',sans-serif] font-bold text-[#c77840] text-base md:text-[17px] md:leading-snug max-w-[386px] md:max-w-[338px]">
+          <div
+            className={`flex items-center lg:w-[45%] ${
+              aboutMotionReduced ? "" : "transition-[opacity,transform] duration-[850ms] ease-out"
+            } ${aboutInView ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
+            style={
+              aboutMotionReduced
+                ? undefined
+                : { transitionDelay: aboutInView ? "120ms" : "0ms" }
+            }
+          >
+            <p className="max-w-[386px] font-['Space_Grotesk',sans-serif] text-base font-bold text-[#c77840] md:max-w-[338px] md:text-[17px] md:leading-snug">
               I'm a UX/UI Designer focused on creating intuitive, high-impact digital experiences.
               <br />
               Blending strategy, design systems and product thinking to deliver real results.
@@ -400,8 +423,15 @@ export default function App() {
         </div>
 
         {/* Bottom row */}
-        <div className="flex items-end justify-between">
-          <p className="font-['Space_Grotesk',sans-serif] text-[#c77840] text-base md:text-lg">
+        <div
+          className={`flex items-end justify-between ${
+            aboutMotionReduced ? "" : "transition-[opacity,transform] duration-[850ms] ease-out"
+          } ${aboutInView ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
+          style={
+            aboutMotionReduced ? undefined : { transitionDelay: aboutInView ? "240ms" : "0ms" }
+          }
+        >
+          <p className="font-['Space_Grotesk',sans-serif] text-base text-[#c77840] md:text-lg">
             RECENT WORK
           </p>
           <div
@@ -423,57 +453,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* Work Section */}
-      <section className="bg-[#2e1f26] w-full">
-        {[
-          { name: "GLOBALDEX", desc: ["REBRAND", "UX|UI"] },
-          { name: "GATES2B", desc: ["REBRAND", "UX|UI"] },
-          { name: "QOFRINHO", desc: ["DESIGN", "&", "DEVELOPMENT"] },
-        ].map((project, i) => (
-          <div key={project.name}>
-            <div
-              className="flex items-center justify-between px-8 md:px-20 lg:px-40 py-12 md:py-20 cursor-pointer hover:scale-[1.02] transition-all duration-500 ease-out opacity-0 translate-y-10"
-              ref={(el) => {
-                if (!el || el.dataset.observed) return;
-                el.dataset.observed = "true";
-                const observer = new IntersectionObserver(
-                  ([entry]) => {
-                    if (entry.isIntersecting) {
-                      el.style.transition = "opacity 0.7s ease-out, transform 0.7s ease-out";
-                      el.style.opacity = "1";
-                      el.style.transform = "translateY(0)";
-                      observer.disconnect();
-                    }
-                  },
-                  { threshold: 0.15 }
-                );
-                observer.observe(el);
-              }}
-            >
-              <p className="font-['Space_Grotesk',sans-serif] font-bold text-[#c77840] text-4xl sm:text-6xl md:text-8xl lg:text-[88px]">
-                {project.name}
-              </p>
-              <p className="font-['Space_Grotesk',sans-serif] font-bold text-[#c77840] text-sm md:text-xl lg:text-[28px] text-center whitespace-nowrap">
-                {project.desc.map((line, j) => (
-                  <span key={j}>
-                    {j > 0 && <br />}
-                    {line}
-                  </span>
-                ))}
-              </p>
-            </div>
-            <div className="mx-8 md:mx-20 lg:mx-40 h-px bg-[#c77840]" />
-          </div>
-        ))}
-
-        <div className="flex items-center justify-center py-20 md:py-32">
-          <div className="border-2 border-[#c77840] rounded-full px-10 py-5 cursor-pointer hover:bg-[#c77840] hover:text-[#2e1f26] transition-colors group">
-            <p className="font-['Space_Grotesk',sans-serif] font-bold text-[#c77840] text-lg md:text-[19px] whitespace-nowrap group-hover:text-[#2e1f26]">
-              MORE WORK (11)
-            </p>
-          </div>
-        </div>
-      </section>
+      <WorkProjectSection projects={workProjects} />
 
       {/* Gallery Carousel Section */}
       <section className="bg-[#2e1f26] w-full py-16 md:py-24 flex flex-col gap-[62px] md:gap-[54px] overflow-hidden">
@@ -519,7 +499,7 @@ export default function App() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-[#c77840] w-full pt-20 md:pt-[105px] pb-8 md:pb-10">
+      <footer id="contact" className="bg-[#c77840] w-full pt-20 md:pt-[105px] pb-8 md:pb-10 scroll-mt-6">
         <div className="px-8 md:px-20 lg:px-40">
           {/* Lets Work Together */}
           <h2 className="font-['Space_Grotesk',sans-serif] font-bold text-[#2e1f26] text-5xl sm:text-7xl md:text-[88px] md:leading-[1.05]">

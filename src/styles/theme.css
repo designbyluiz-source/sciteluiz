@@ -1,5 +1,18 @@
 @custom-variant dark (&:is(.dark *));
 
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Nav pills: sem transição longa quando o utilizador pede menos movimento */
+@media (prefers-reduced-motion: reduce) {
+  .nav-btn-fill-host .nav-btn-fill-layer {
+    transition: none !important;
+  }
+}
+
 :root {
   --font-size: 16px;
   --background: #000000;
