@@ -57,9 +57,12 @@ export default function ProjectCaseStudyPage() {
             <Logo />
           </Link>
           <nav className="hidden items-center gap-2 md:flex md:gap-3" aria-label="Principal">
-            <span className="relative inline-flex flex-col items-center gap-1">
+            <span className="relative inline-flex">
               <NavButton label="WORK" to="/#work" />
-              <span className="h-1 w-1 rounded-full bg-[#2e1f26]" aria-hidden />
+              <span
+                className="pointer-events-none absolute left-1/2 top-full mt-1 h-1 w-1 -translate-x-1/2 rounded-full bg-[#2e1f26]"
+                aria-hidden
+              />
             </span>
             <NavButton label="ABOUT" to="/#about" />
             <NavButton label="CONTACT" to="/#contact" />

@@ -506,13 +506,13 @@ export default function App() {
             Lets Work<br />Together
           </h2>
 
-          {/* Line + Get in Touch */}
-          <div className="flex items-center mt-[-20px] md:mt-[-30px] relative z-10">
-            <div className="flex-1 h-[2px] bg-[#2e1f26]" />
-            <div
-              ref={footerCircleParallaxRef}
-              className="shrink-0 will-change-transform [transform:translate3d(0,0,0)]"
-            >
+          {/* Line + Get in Touch — parallax no contentor inteiro para o círculo não descolar das linhas */}
+          <div
+            ref={footerCircleParallaxRef}
+            className="flex items-center mt-[-20px] md:mt-[-30px] relative z-10 will-change-transform [transform:translate3d(0,0,0)]"
+          >
+            <div className="flex-1 h-[2px] bg-[#2e1f26] self-center" />
+            <div className="shrink-0 self-center">
               <div
                 className="bg-[#2e1f26] flex items-center justify-center rounded-full size-[118px] sm:size-[150px] md:size-[230px] cursor-pointer hover:scale-110 transition-transform duration-300 [transform:translate3d(0,0,0)]"
                 onMouseMove={(e) => {
@@ -535,7 +535,7 @@ export default function App() {
                 </p>
               </div>
             </div>
-            <div className="w-[60px] md:w-[80px] h-[2px] bg-[#2e1f26] shrink-0" />
+            <div className="h-[2px] w-[60px] shrink-0 self-center bg-[#2e1f26] md:w-[80px]" />
           </div>
 
           {/* Contact pills — no mobile, margem positiva para não ficar por baixo do círculo */}
