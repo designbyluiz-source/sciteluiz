@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import globaldexCover from "../assets/globaldex-cover.png";
 import { LanguageRail } from "./components/LanguageRail";
 import { MetaballShaderBackground } from "./components/MetaballShaderBackground";
+import { projectSiteUrls } from "./projectSiteUrls";
 import { useLanguage } from "./language";
 import { useColorMode } from "./useColorMode";
 
@@ -108,8 +109,17 @@ export default function ProjectQuantumPage() {
               </Link>
 
               <div className="flex w-full flex-1 items-center justify-center">
-                <div className="relative w-[min(100%,778px)] aspect-[778/539] overflow-hidden rounded-[40px]">
+                <div className="group relative w-[min(100%,778px)] aspect-[778/539] overflow-hidden rounded-[40px]">
                   <img alt="Quantum project cover" className={`absolute inset-0 h-full w-full object-cover${isDark ? " invert" : ""}`} src={globaldexCover} />
+                  <div className="pointer-events-none absolute inset-0 z-[1] rounded-[40px] bg-black/45 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                  <a
+                    href={projectSiteUrls.quantum}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="absolute left-1/2 top-1/2 z-[2] -translate-x-1/2 -translate-y-1/2 rounded-full border border-white px-[clamp(16px,1.6vmin,24px)] py-[clamp(7px,0.8vmin,11px)] font-['Darker_Grotesque',sans-serif] text-[clamp(1rem,1.6vmin,1.3rem)] font-bold uppercase tracking-wide text-white no-underline opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                  >
+                    QUANTUM
+                  </a>
                 </div>
               </div>
             </div>
