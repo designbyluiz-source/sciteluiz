@@ -117,7 +117,7 @@ export default function ProjectGlobalDexPage() {
 
               <div className="flex w-full flex-1 items-center justify-center">
                 <div
-                  className="group relative w-[min(100%,778px)] aspect-[778/539] overflow-hidden rounded-[40px]"
+                  className="group relative w-[min(100%,720px)] aspect-[778/539] overflow-hidden rounded-[40px]"
                   data-node-id="30:86"
                 >
                   <img alt="GlobalDex project cover" className={`absolute inset-0 h-full w-full object-cover${isDark ? " invert" : ""}`} src={globaldexCover} />

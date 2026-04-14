@@ -110,7 +110,7 @@ export default function ProjectGates2BPage() {
               </Link>
 
               <div className="flex w-full flex-1 items-center justify-center">
-                <div className="group relative w-[min(100%,778px)] aspect-[778/539] overflow-hidden rounded-[40px]">
+                <div className="group relative w-[min(100%,720px)] aspect-[778/539] overflow-hidden rounded-[40px]">
                   <img alt="Gates2B project cover background" className={`absolute inset-0 h-full w-full object-cover${isDark ? " invert" : ""}`} src={gates2bCoverBase} />
                   <img alt="Gates2B project cover" className={`absolute inset-0 h-full w-full object-cover${isDark ? " invert" : ""}`} src={gates2bCoverOverlay} />
                   <div className="pointer-events-none absolute inset-0 z-[1] rounded-[40px] bg-black/45 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
