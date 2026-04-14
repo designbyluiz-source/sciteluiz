@@ -97,7 +97,7 @@ function HomeIntroColumn() {
   const keys: MessageKey[] = ["home1", "home2", "home3"];
   return (
     <div
-      className="hide-scrollbar flex min-h-0 w-full flex-1 flex-col items-end justify-start overflow-y-auto overscroll-contain text-black sm:max-w-[min(374px,100%)] sm:shrink-0 sm:justify-end"
+      className="hide-scrollbar flex min-h-0 w-full flex-1 flex-col items-end justify-end overflow-y-auto overscroll-contain text-black sm:max-w-[min(374px,100%)] sm:shrink-0"
       data-node-id="10:105"
     >
       <div

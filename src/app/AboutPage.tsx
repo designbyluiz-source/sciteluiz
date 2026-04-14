@@ -121,7 +121,7 @@ export default function AboutPage() {
             >
               <Link
                 to="/"
-                className={`shrink-0 font-['Darker_Grotesque',sans-serif] font-light leading-none no-underline hover:opacity-70 ${backSize} ${isDark ? "text-white" : "text-black"}`}
+                className={`shrink-0 font-['Darker_Grotesque',sans-serif] font-light leading-none text-black no-underline hover:opacity-70 ${backSize}`}
                 data-node-id="17:284"
               >
                 {t("aboutBack")}
@@ -129,12 +129,13 @@ export default function AboutPage() {
 
               {/* Portrait container — fixed height on mobile, flex-1 on desktop; bleeds to bottom border */}
               <div
-                className="relative w-full overflow-hidden h-[48vw] sm:min-h-0 sm:flex-1 mb-[calc(-1*clamp(10px,3vmin,30px))]"
+                className="relative w-full overflow-hidden aspect-[894/646] sm:aspect-auto sm:min-h-0 sm:flex-1 mb-[calc(-1*clamp(10px,3vmin,30px))]"
                 data-node-id="17:346"
               >
+                {/* invert cancels out the parent wrapper's invert so the photo keeps its original colours */}
                 <img
                   alt="Luiz Eduardo"
-                  className="absolute bottom-0 left-1/2 -translate-x-1/2 pointer-events-none"
+                  className={`absolute bottom-0 left-1/2 -translate-x-1/2 pointer-events-none${isDark ? " invert" : ""}`}
                   style={{ width: "88%", height: "auto" }}
                   src={portrait}
                 />
@@ -147,7 +148,7 @@ export default function AboutPage() {
               data-node-id="17:388"
             >
               <div
-                className={`w-full text-right font-['Darker_Grotesque',sans-serif] font-normal leading-normal ${introSize} ${isDark ? "text-white" : "text-black"}`}
+                className={`w-full text-right font-['Darker_Grotesque',sans-serif] font-normal leading-normal text-black ${introSize}`}
                 data-node-id="17:389"
               >
                 {bioParagraphs.map((key) => (
@@ -158,7 +159,7 @@ export default function AboutPage() {
               </div>
               <Link
                 to="/projects"
-                className={`mt-[0.85em] font-['Darker_Grotesque',sans-serif] font-bold leading-normal no-underline hover:opacity-70 ${introSize} ${isDark ? "text-white" : "text-black"}`}
+                className={`mt-[0.85em] font-['Darker_Grotesque',sans-serif] font-bold leading-normal text-black no-underline hover:opacity-70 ${introSize}`}
               >
                 {t("aboutProjects")}
               </Link>
