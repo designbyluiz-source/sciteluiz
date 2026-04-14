@@ -1,20 +1,16 @@
 import { useState, type CSSProperties, type ReactNode } from "react";
 import { Link, useLocation } from "react-router";
+import { LanguageRail } from "./components/LanguageRail";
 import { MetaballShaderBackground } from "./components/MetaballShaderBackground";
+import { useLanguage, type MessageKey } from "./language";
 
-const projects: { title: string; subtitle: string }[] = [
-  { title: "GLOBALDEX", subtitle: "Crypto Banking Design" },
-  { title: "GATES2B", subtitle: "Crypto Banking Design" },
-  { title: "QUANTUM", subtitle: "Website Design" },
-  { title: "SALLES FERREIRA", subtitle: "Website Design" },
-  { title: "QOFRINHO", subtitle: "Banking APP Design" },
-  { title: "QOFRINHO", subtitle: "Banking APP Design" },
-];
-
-const homeIntroParagraphs = [
-  "Born in Curitiba, Brazil, I've been working as a UX/UI designer for over 6 years. I believe design can go beyond interfaces, creating meaningful connections between people and digital products.",
-  "With a strong focus on clarity, usability, and intention, I design experiences that simplify complexity and bring ideas to life in a practical and engaging way.",
-  "I'm constantly exploring new approaches to make digital products feel more intuitive, human, and impactful.",
+const projectDefs: readonly { title: string; subKey: MessageKey }[] = [
+  { title: "GLOBALDEX", subKey: "projectCrypto" },
+  { title: "GATES2B", subKey: "projectCrypto" },
+  { title: "QUANTUM", subKey: "projectWeb" },
+  { title: "SALLES FERREIRA", subKey: "projectWeb" },
+  { title: "QOFRINHO", subKey: "projectBank" },
+  { title: "QOFRINHO", subKey: "projectBank" },
 ];
 
 /** Fluid sizing — Figma + vmin; shell pad drives symmetric rail (absolute, out of flow) */
@@ -41,6 +37,7 @@ function ThemeModeRail({
   onMode: (m: ColorMode) => void;
   isDark: boolean;
 }) {
+  const { t } = useLanguage();
   const label = isDark ? "text-white" : "text-black";
   const boxOn = isDark ? "border-white bg-white" : "border-black bg-black";
   const boxOff = isDark ? "border-white bg-transparent" : "border-black bg-white";
@@ -51,7 +48,7 @@ function ThemeModeRail({
   return (
     <aside
       className={`pointer-events-auto flex h-full min-h-0 w-full flex-col items-center justify-end bg-transparent pb-[clamp(6px,1.2vmin,14px)] ${font}`}
-      aria-label="Color mode"
+      aria-label={t("ariaTheme")}
     >
       <div
         role="radiogroup"
@@ -71,7 +68,7 @@ function ThemeModeRail({
           <span
             className={`origin-center rotate-[-90deg] select-none whitespace-nowrap text-[clamp(11px,1.5vmin,16px)] font-normal uppercase tracking-wide ${label}`}
           >
-            DARK
+            {t("themeDark")}
           </span>
         </label>
         <label className={`flex cursor-pointer flex-col items-center ${optionGap} ${label}`}>
@@ -87,7 +84,7 @@ function ThemeModeRail({
           <span
             className={`origin-center rotate-[-90deg] select-none whitespace-nowrap text-[clamp(11px,1.5vmin,16px)] font-normal uppercase tracking-wide ${label}`}
           >
-            LIGHT
+            {t("themeLight")}
           </span>
         </label>
       </div>
@@ -96,6 +93,8 @@ function ThemeModeRail({
 }
 
 function HomeIntroColumn() {
+  const { t } = useLanguage();
+  const keys: MessageKey[] = ["home1", "home2", "home3"];
   return (
     <div
       className="flex h-full min-h-0 w-full max-w-[min(374px,100%)] shrink-0 flex-col items-end justify-end text-black"
@@ -105,9 +104,9 @@ function HomeIntroColumn() {
         className={`w-full text-right font-['Darker_Grotesque',sans-serif] font-normal leading-normal ${introSize}`}
         data-node-id="15:190"
       >
-        {homeIntroParagraphs.map((text, i) => (
-          <p key={i} className="mb-[0.85em] last:mb-0">
-            {text}
+        {keys.map((key) => (
+          <p key={key} className="mb-[0.85em] last:mb-0">
+            {t(key)}
           </p>
         ))}
       </div>
@@ -116,42 +115,43 @@ function HomeIntroColumn() {
 }
 
 function ProjectsColumn() {
+  const { t } = useLanguage();
   return (
     <div
       className={`hide-scrollbar flex min-h-0 min-w-0 flex-1 flex-col items-end ${projectStackGap} overflow-y-auto overflow-x-hidden overscroll-y-contain text-right font-['Darker_Grotesque',sans-serif] font-normal leading-normal`}
       data-node-id="10:105"
       role="region"
-      aria-label="Projects"
+      aria-label={t("ariaProjects")}
     >
-      {projects.map((p, i) => (
+      {projectDefs.map((p, i) => (
         <div
           key={`${p.title}-${i}`}
           className="flex w-full min-w-0 max-w-full shrink-0 flex-col items-end [&_p]:max-w-full [&_p]:break-words"
           data-node-id={["10:106", "10:109", "10:112", "10:162", "10:158", "10:166"][i]}
         >
           <p className={`relative text-right ${projectTitle}`}>{p.title}</p>
-          <p className={`relative mt-[0.12em] text-right ${projectSub}`}>{p.subtitle}</p>
+          <p className={`relative mt-[0.12em] text-right ${projectSub}`}>{t(p.subKey)}</p>
         </div>
       ))}
     </div>
   );
 }
 
-const contactLinks: { label: string; url: string; nodeTitle: string; nodeUrl: string }[] = [
+const contactLinks: { labelKey: MessageKey; url: string; nodeTitle: string; nodeUrl: string }[] = [
   {
-    label: "BEHANCE >",
+    labelKey: "contactBehance",
     url: "https://www.behance.net/luizeddossan4",
     nodeTitle: "16:241",
     nodeUrl: "16:242",
   },
   {
-    label: "LINKEDIN >",
+    labelKey: "contactLinkedin",
     url: "https://www.linkedin.com/in/luizeduardoeugenio/",
     nodeTitle: "16:244",
     nodeUrl: "16:245",
   },
   {
-    label: "WHATSAPP >",
+    labelKey: "contactWhatsapp",
     url: "https://wa.me/5541999890046",
     nodeTitle: "16:263",
     nodeUrl: "16:264",
@@ -161,12 +161,13 @@ const contactLinks: { label: string; url: string; nodeTitle: string; nodeUrl: st
 const contactBlockIds = ["16:240", "16:243", "16:262"] as const;
 
 function ContactColumn() {
+  const { t } = useLanguage();
   return (
     <div
       className={`flex h-full min-h-0 min-w-0 flex-1 flex-col items-end justify-end gap-[clamp(20px,3vmin,54px)] text-right font-['Darker_Grotesque',sans-serif] font-normal leading-normal text-black`}
       data-node-id="16:233"
       role="region"
-      aria-label="Contact"
+      aria-label={t("ariaContact")}
     >
       {contactLinks.map((item, i) => (
         <a
@@ -178,7 +179,7 @@ function ContactColumn() {
           data-node-id={contactBlockIds[i]}
         >
           <p className={`relative text-right ${projectTitle}`} data-node-id={item.nodeTitle}>
-            {item.label}
+            {t(item.labelKey)}
           </p>
           <p
             className={`relative mt-[0.12em] max-w-full whitespace-nowrap text-right ${projectSub} hide-scrollbar overflow-x-auto`}
@@ -216,6 +217,7 @@ function NavSelectedItem({ "data-node-id": dataNodeId, children }: { "data-node-
 export default function App() {
   const [mode, setMode] = useState<ColorMode>("light");
   const isDark = mode === "dark";
+  const { t } = useLanguage();
   const { pathname } = useLocation();
   const isHome = pathname === "/";
   const isProjects = pathname === "/projects";
@@ -234,15 +236,18 @@ export default function App() {
       }
     >
       <div
-        className="pointer-events-auto absolute z-30 flex justify-center"
+        className="pointer-events-auto absolute z-30 flex flex-col items-center justify-between"
         style={{
           left: "calc(var(--shell-pad) * 0.5)",
           top: "var(--shell-pad)",
           bottom: "var(--shell-pad)",
-          width: "clamp(18px, 2.6vmin, 28px)",
+          width: "clamp(28px, 3.2vmin, 40px)",
           transform: "translateX(-50%)",
         }}
       >
+        <div className="pointer-events-auto flex shrink-0 flex-col items-center pt-[2px]">
+          <LanguageRail isDark={isDark} />
+        </div>
         <ThemeModeRail mode={mode} onMode={setMode} isDark={isDark} />
       </div>
 
@@ -274,36 +279,36 @@ export default function App() {
                     className={`mt-[0.15em] w-full min-w-0 font-['Darker_Grotesque',sans-serif] font-normal leading-snug ${roleSize}`}
                     data-node-id="10:98"
                   >
-                    Designer UX|UI
+                    {t("role")}
                   </p>
                 </div>
                 <nav
                   className={`flex w-max max-w-full min-w-0 flex-col items-stretch ${navGap} ${navSize} leading-normal text-black`}
                   data-node-id="10:99"
-                  aria-label="Primary"
+                  aria-label={t("ariaNav")}
                 >
                   {isHome ? (
-                    <NavSelectedItem data-node-id="10:100">Home</NavSelectedItem>
+                    <NavSelectedItem data-node-id="10:100">{t("navHome")}</NavSelectedItem>
                   ) : (
                     <Link to="/" className={navInactive} data-node-id="10:100">
-                      Home
+                      {t("navHome")}
                     </Link>
                   )}
                   {isProjects ? (
-                    <NavSelectedItem data-node-id="10:101">Projects</NavSelectedItem>
+                    <NavSelectedItem data-node-id="10:101">{t("navProjects")}</NavSelectedItem>
                   ) : (
                     <p className="font-['Darker_Grotesque',sans-serif] font-normal" data-node-id="10:101">
                       <Link to="/projects" className={navInactive}>
-                        Projects
+                        {t("navProjects")}
                       </Link>
                     </p>
                   )}
                   {isContact ? (
-                    <NavSelectedItem data-node-id="16:231">Contact</NavSelectedItem>
+                    <NavSelectedItem data-node-id="16:231">{t("navContact")}</NavSelectedItem>
                   ) : (
                     <p className="font-['Darker_Grotesque',sans-serif] font-normal" data-node-id="10:103">
                       <Link to="/contact" className={navInactive}>
-                        Contact
+                        {t("navContact")}
                       </Link>
                     </p>
                   )}

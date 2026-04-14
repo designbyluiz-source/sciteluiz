@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useLanguage, type Locale } from "../language";
 
 /** Ordem: PT → EN → ES → ZH, depois outros */
 const GREETINGS = [
@@ -30,8 +31,15 @@ type WelcomePreloaderProps = {
   onComplete: () => void;
 };
 
+const GREETING_START: Record<Locale, number> = {
+  "pt-BR": 0,
+  en: 1,
+  es: 2,
+};
+
 export function WelcomePreloader({ onComplete }: WelcomePreloaderProps) {
-  const [index, setIndex] = useState(0);
+  const { locale, t } = useLanguage();
+  const [index, setIndex] = useState(() => GREETING_START[locale]);
   const [exiting, setExiting] = useState(false);
   const reducedRef = useRef(false);
   const onCompleteRef = useRef(onComplete);
@@ -74,7 +82,7 @@ export function WelcomePreloader({ onComplete }: WelcomePreloaderProps) {
       }`}
       role="status"
       aria-live="polite"
-      aria-label="A carregar"
+      aria-label={t("preloaderAria")}
     >
       <div className="flex items-center gap-[0.65em] px-6 font-['Darker_Grotesque',sans-serif] text-[clamp(1.35rem,4.5vmin,2rem)] font-normal text-white">
         <span className="size-2 shrink-0 rounded-full bg-white" aria-hidden />
