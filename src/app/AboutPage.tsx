@@ -143,7 +143,7 @@ export default function AboutPage() {
 
             {/* RIGHT: bio text + projects link */}
             <div
-              className="flex min-h-0 w-[min(374px,100%)] max-w-[min(374px,42%)] shrink-0 flex-col items-end justify-end"
+              className="hide-scrollbar flex min-h-0 w-[min(374px,100%)] max-w-[min(374px,42%)] shrink-0 flex-col items-end justify-start overflow-y-auto overscroll-contain"
               data-node-id="17:388"
             >
               <div
