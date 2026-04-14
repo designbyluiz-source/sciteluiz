@@ -1,8 +1,9 @@
-import { useState, type CSSProperties, type ReactNode } from "react";
+import { type CSSProperties, type ReactNode } from "react";
 import { Link, useLocation } from "react-router";
 import { LanguageRail } from "./components/LanguageRail";
 import { MetaballShaderBackground } from "./components/MetaballShaderBackground";
 import { useLanguage, type MessageKey } from "./language";
+import { useColorMode, type ColorMode } from "./useColorMode";
 
 const projectDefs: readonly { title: string; subKey: MessageKey; href?: string }[] = [
   { title: "GLOBALDEX", subKey: "projectCrypto", href: "/projects/globaldex" },
@@ -28,8 +29,6 @@ const projectSub = "text-[clamp(0.9rem,3vmin,2rem)] leading-tight";
 const projectStackGap = "gap-[clamp(32px,5vmin,96px)]";
 const introSize = "text-[clamp(1rem,2.05vmin,1.375rem)]";
 const projectNodeIds = ["10:106", "10:109", "10:112", "10:162", "10:158", "10:166"] as const;
-
-type ColorMode = "light" | "dark";
 
 function ThemeModeRail({
   mode,
@@ -231,8 +230,7 @@ function NavSelectedItem({ "data-node-id": dataNodeId, children }: { "data-node-
 }
 
 export default function App() {
-  const [mode, setMode] = useState<ColorMode>("light");
-  const isDark = mode === "dark";
+  const { mode, setMode, isDark } = useColorMode("light");
   const { t } = useLanguage();
   const { pathname } = useLocation();
   const isHome = pathname === "/";

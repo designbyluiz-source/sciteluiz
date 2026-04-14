@@ -1,22 +1,20 @@
-import { useState, type CSSProperties } from "react";
+import { type CSSProperties } from "react";
 import { Link } from "react-router";
 import { LanguageRail } from "./components/LanguageRail";
 import { MetaballShaderBackground } from "./components/MetaballShaderBackground";
 import { useLanguage, type MessageKey } from "./language";
 import aboutPortrait from "../assets/about-portrait.png";
+import { useColorMode } from "./useColorMode";
 
 const SHELL_PAD = "clamp(10px, 3vmin, 30px)";
 const framePad = "p-[clamp(10px,3vmin,30px)]";
 const introSize = "text-[clamp(1rem,2.05vmin,1.375rem)]";
 const backSize = "text-[clamp(1.25rem,4.2vmin,3.375rem)]";
 
-type ColorMode = "light" | "dark";
-
 const bioParagraphs: MessageKey[] = ["aboutP1", "aboutP2", "aboutP3", "aboutP4", "aboutP5"];
 
 export default function AboutPage() {
-  const [mode, setMode] = useState<ColorMode>("light");
-  const isDark = mode === "dark";
+  const { mode, setMode, isDark } = useColorMode("light");
   const { t } = useLanguage();
 
   const label = isDark ? "text-white" : "text-black";

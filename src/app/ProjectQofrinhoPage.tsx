@@ -1,20 +1,18 @@
-import { useState, type CSSProperties } from "react";
+import { type CSSProperties } from "react";
 import { Link } from "react-router";
 import globaldexCover from "../assets/globaldex-cover.png";
 import { LanguageRail } from "./components/LanguageRail";
 import { MetaballShaderBackground } from "./components/MetaballShaderBackground";
 import { useLanguage } from "./language";
+import { useColorMode } from "./useColorMode";
 
 const SHELL_PAD = "clamp(10px, 3vmin, 30px)";
 const framePad = "p-[clamp(10px,3vmin,30px)]";
 const headingSize = "text-[clamp(1.25rem,4.2vmin,3.375rem)]";
 const bodySize = "text-[clamp(1rem,2.05vmin,1.375rem)]";
 
-type ColorMode = "light" | "dark";
-
 export default function ProjectQofrinhoPage() {
-  const [mode, setMode] = useState<ColorMode>("light");
-  const isDark = mode === "dark";
+  const { mode, setMode, isDark } = useColorMode("light");
   const { t } = useLanguage();
 
   const label = isDark ? "text-white" : "text-black";
