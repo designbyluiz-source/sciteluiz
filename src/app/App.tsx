@@ -225,7 +225,7 @@ function NavSelectedItem({ "data-node-id": dataNodeId, children }: { "data-node-
 }
 
 export default function App() {
-  const [mode, setMode] = useState<ColorMode>("dark");
+  const [mode, setMode] = useState<ColorMode>("light");
   const isDark = mode === "dark";
   const { t } = useLanguage();
   const { pathname } = useLocation();

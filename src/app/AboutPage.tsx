@@ -16,7 +16,7 @@ type ColorMode = "light" | "dark";
 const bioParagraphs: MessageKey[] = ["aboutP1", "aboutP2", "aboutP3", "aboutP4", "aboutP5"];
 
 export default function AboutPage() {
-  const [mode, setMode] = useState<ColorMode>("dark");
+  const [mode, setMode] = useState<ColorMode>("light");
   const isDark = mode === "dark";
   const { t } = useLanguage();
 
