@@ -128,16 +128,18 @@ export default function AboutPage() {
                 {t("aboutBack")}
               </Link>
 
-              {/* Portrait card — matches Figma rounded photo card instead of floating cutout */}
-              <div
-                className="relative mt-[clamp(8px,2.2vmin,28px)] w-[min(100%,370px)] aspect-[370/555] self-center overflow-hidden rounded-[40px] sm:h-[555px] sm:w-[370px] sm:aspect-auto"
-                data-node-id="27:5"
-              >
-                <img
-                  alt="Luiz Eduardo"
-                  className={`absolute inset-0 h-full w-full object-cover object-[center_18%]${isDark ? " invert" : ""}`}
-                  src={FIGMA_ABOUT_PHOTO}
-                />
+              <div className="flex w-full flex-1 items-center justify-center">
+                {/* Portrait card stays vertically centered and scales up on larger screens */}
+                <div
+                  className="relative mt-[clamp(8px,2.2vmin,28px)] w-[min(100%,370px)] aspect-[370/555] self-center overflow-hidden rounded-[40px] sm:mt-0 sm:w-[clamp(360px,31vw,470px)]"
+                  data-node-id="27:5"
+                >
+                  <img
+                    alt="Luiz Eduardo"
+                    className={`absolute inset-0 h-full w-full object-cover object-[center_18%]${isDark ? " invert" : ""}`}
+                    src={FIGMA_ABOUT_PHOTO}
+                  />
+                </div>
               </div>
             </div>
 
