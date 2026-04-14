@@ -1,5 +1,7 @@
 import { useEffect, useRef } from "react";
 
+const METABALL_EPOCH_MS = typeof performance !== "undefined" ? performance.now() : Date.now();
+
 const VERT = `
 attribute vec2 a_position;
 void main() {
@@ -130,14 +132,13 @@ export function MetaballShaderBackground({ className = "" }: MetaballShaderBackg
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 8, 8, 0, gl.RGBA, gl.UNSIGNED_BYTE, makeDitherTextureData());
 
     let raf = 0;
-    const t0 = performance.now();
 
     const draw = () => {
       if (document.hidden) {
         raf = 0;
         return;
       }
-      const t = (performance.now() - t0) / 1000;
+      const t = (performance.now() - METABALL_EPOCH_MS) / 1000;
       gl.useProgram(prog);
       gl.bindBuffer(gl.ARRAY_BUFFER, buf);
       gl.enableVertexAttribArray(aPos);
