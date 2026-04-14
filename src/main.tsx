@@ -1,25 +1,42 @@
-import { StrictMode, useState } from "react";
+import { StrictMode, useCallback, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { BrowserRouter, Route, Routes } from "react-router";
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router";
 import App from "./app/App.tsx";
+import AboutPage from "./app/AboutPage.tsx";
 import { WelcomePreloader } from "./app/components/WelcomePreloader.tsx";
 import { LanguageProvider } from "./app/language.tsx";
 import "./styles/index.css";
 
-function Root() {
+/** After the welcome screen, always land on home (first visit or refresh). */
+function RoutesWithPreloader() {
   const [preloaderDone, setPreloaderDone] = useState(false);
+  const navigate = useNavigate();
 
+  const handlePreloaderComplete = useCallback(() => {
+    setPreloaderDone(true);
+    navigate("/", { replace: true });
+  }, [navigate]);
+
+  return (
+    <>
+      <Routes>
+        <Route path="/sobre-mim" element={<AboutPage />} />
+        <Route path="/projects" element={<App />} />
+        <Route path="/contact" element={<App />} />
+        <Route path="/" element={<App />} />
+      </Routes>
+      {!preloaderDone ? <WelcomePreloader onComplete={handlePreloaderComplete} /> : null}
+    </>
+  );
+}
+
+function Root() {
   return (
     <StrictMode>
       <LanguageProvider>
         <BrowserRouter>
-          <Routes>
-            <Route path="/projects" element={<App />} />
-            <Route path="/contact" element={<App />} />
-            <Route path="/" element={<App />} />
-          </Routes>
+          <RoutesWithPreloader />
         </BrowserRouter>
-        {!preloaderDone ? <WelcomePreloader onComplete={() => setPreloaderDone(true)} /> : null}
       </LanguageProvider>
     </StrictMode>
   );

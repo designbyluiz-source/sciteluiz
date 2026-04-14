@@ -110,6 +110,13 @@ function HomeIntroColumn() {
           </p>
         ))}
       </div>
+      <Link
+        to="/sobre-mim"
+        className={`mt-[0.85em] font-['Darker_Grotesque',sans-serif] font-bold leading-normal no-underline hover:opacity-70 ${introSize}`}
+        data-node-id="17:373"
+      >
+        {t("homeMore")}
+      </Link>
     </div>
   );
 }

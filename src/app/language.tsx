@@ -36,6 +36,19 @@ const MESSAGES = {
     contactBehance: "BEHANCE >",
     contactLinkedin: "LINKEDIN >",
     contactWhatsapp: "WHATSAPP >",
+    homeMore: "MAIS >",
+    aboutBack: "< SOBRE MIM",
+    aboutP1:
+      "Sou um Designer UX/UI Sênior baseado em Curitiba, Brasil, com mais de 6 anos de experiência no design de produtos digitais que equilibram estética, usabilidade e impacto para o negócio. Ao longo da minha carreira, trabalhei em diferentes setores, ajudando empresas a transformar ideias complexas em experiências intuitivas e escaláveis.",
+    aboutP2:
+      "Minha abordagem ao design vai além do visual. Foco em entender o comportamento real do usuário, identificar pontos de atrito e criar soluções que pareçam naturais e sem esforço. Seja estruturando um produto do zero ou refinando uma experiência existente, busco clareza, consistência e propósito em cada decisão.",
+    aboutP3:
+      "Tenho sólida expertise em Figma e sistemas de design, e estou profundamente envolvido em todo o ciclo do produto — desde pesquisa e ideação até prototipagem, validação e handoff. Colaboro de perto com desenvolvedores, stakeholders e equipes de negócio para garantir que o design seja não apenas visualmente atraente, mas também viável e alinhado com os objetivos estratégicos.",
+    aboutP4:
+      "Ao longo dos anos, também contribuí para processos de pré-venda, ajudando a traduzir necessidades de negócio em visões de produto e construindo confiança por meio do design. Essa experiência fortaleceu minha capacidade de comunicar ideias com clareza e conectar decisões de design a resultados reais.",
+    aboutP5:
+      "O que me motiva é a constante evolução das experiências digitais. Estou sempre explorando novas ferramentas, referências e formas de impulsionar o design — não pela tendência, mas para criar produtos mais humanos, eficientes e significativos.",
+    aboutProjects: "MEUS PROJETOS >",
     projectCrypto: "Design de banco cripto",
     projectWeb: "Design de sites",
     projectBank: "Design de app bancário",
@@ -62,6 +75,19 @@ const MESSAGES = {
     contactBehance: "BEHANCE >",
     contactLinkedin: "LINKEDIN >",
     contactWhatsapp: "WHATSAPP >",
+    homeMore: "MORE >",
+    aboutBack: "< ABOUT ME",
+    aboutP1:
+      "I'm a Senior UX/UI Designer based in Curitiba, Brazil, with over 6 years of experience designing digital products that balance aesthetics, usability, and business impact. Throughout my career, I've worked across different industries, helping companies transform complex ideas into intuitive and scalable experiences.",
+    aboutP2:
+      "My approach to design goes beyond visuals. I focus on understanding real user behavior, identifying friction points, and creating solutions that feel natural and effortless. Whether it's structuring a product from scratch or refining an existing experience, I'm driven by clarity, consistency, and purpose in every decision.",
+    aboutP3:
+      "I have strong expertise in Figma and design systems, and I'm deeply involved in the full product cycle — from research and ideation to prototyping, validation, and handoff. I collaborate closely with developers, stakeholders, and business teams to ensure that design is not just visually compelling, but also feasible and aligned with strategic goals.",
+    aboutP4:
+      "Over the years, I've also contributed to pre-sales processes, helping translate business needs into product visions and building confidence through design. This experience strengthened my ability to communicate ideas clearly and connect design decisions to real outcomes.",
+    aboutP5:
+      "What motivates me is the constant evolution of digital experiences. I'm always exploring new tools, references, and ways to push design forward — not for the sake of trends, but to create products that are more human, efficient, and meaningful.",
+    aboutProjects: "MY PROJECTS >",
     projectCrypto: "Crypto banking design",
     projectWeb: "Website design",
     projectBank: "Banking app design",
@@ -88,6 +114,19 @@ const MESSAGES = {
     contactBehance: "BEHANCE >",
     contactLinkedin: "LINKEDIN >",
     contactWhatsapp: "WHATSAPP >",
+    homeMore: "MÁS >",
+    aboutBack: "< SOBRE MÍ",
+    aboutP1:
+      "Soy un Diseñador UX/UI Senior con base en Curitiba, Brasil, con más de 6 años de experiencia diseñando productos digitales que equilibran estética, usabilidad e impacto empresarial. A lo largo de mi carrera, he trabajado en diferentes industrias, ayudando a empresas a transformar ideas complejas en experiencias intuitivas y escalables.",
+    aboutP2:
+      "Mi enfoque del diseño va más allá de lo visual. Me concentro en comprender el comportamiento real del usuario, identificar puntos de fricción y crear soluciones que se sientan naturales y sin esfuerzo. Ya sea estructurando un producto desde cero o refinando una experiencia existente, me impulsan la claridad, la coherencia y el propósito en cada decisión.",
+    aboutP3:
+      "Tengo una sólida experiencia en Figma y sistemas de diseño, y estoy profundamente involucrado en todo el ciclo del producto — desde la investigación y la ideación hasta la prototipación, la validación y el handoff. Colaboro estrechamente con desarrolladores, stakeholders y equipos de negocio para garantizar que el diseño no solo sea visualmente atractivo, sino también viable y alineado con los objetivos estratégicos.",
+    aboutP4:
+      "A lo largo de los años, también he contribuido a procesos de preventa, ayudando a traducir necesidades empresariales en visiones de producto y generando confianza a través del diseño. Esta experiencia fortaleció mi capacidad para comunicar ideas con claridad y conectar decisiones de diseño con resultados reales.",
+    aboutP5:
+      "Lo que me motiva es la constante evolución de las experiencias digitales. Siempre estoy explorando nuevas herramientas, referencias y formas de impulsar el diseño — no por las tendencias, sino para crear productos más humanos, eficientes y significativos.",
+    aboutProjects: "MIS PROYECTOS >",
     projectCrypto: "Diseño de banca cripto",
     projectWeb: "Diseño web",
     projectBank: "Diseño de app bancaria",
