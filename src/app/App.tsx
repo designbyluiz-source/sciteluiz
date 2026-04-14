@@ -10,7 +10,9 @@ const projectDefs: readonly { title: string; subKey: MessageKey }[] = [
   { title: "QUANTUM", subKey: "projectWeb" },
   { title: "SALLES FERREIRA", subKey: "projectWeb" },
   { title: "QOFRINHO", subKey: "projectBank" },
-  { title: "QOFRINHO", subKey: "projectBank" },
+  { title: "MESA", subKey: "projectLogo" },
+  { title: "FOXPLAYER", subKey: "projectStreaming" },
+  { title: "QUICKWAY", subKey: "projectGateway" },
 ];
 
 /** Fluid sizing — Figma + vmin; shell pad drives symmetric rail (absolute, out of flow) */
@@ -25,6 +27,7 @@ const projectTitle = "text-[clamp(1.65rem,8.5vmin,5.5rem)] leading-[1.02]";
 const projectSub = "text-[clamp(0.9rem,3vmin,2rem)] leading-tight";
 const projectStackGap = "gap-[clamp(32px,5vmin,96px)]";
 const introSize = "text-[clamp(1rem,2.05vmin,1.375rem)]";
+const projectNodeIds = ["10:106", "10:109", "10:112", "10:162", "10:158", "10:166"] as const;
 
 type ColorMode = "light" | "dark";
 
@@ -134,7 +137,7 @@ function ProjectsColumn() {
         <div
           key={`${p.title}-${i}`}
           className="flex w-full min-w-0 max-w-full shrink-0 flex-col items-end [&_p]:max-w-full [&_p]:break-words"
-          data-node-id={["10:106", "10:109", "10:112", "10:162", "10:158", "10:166"][i]}
+          data-node-id={projectNodeIds[i]}
         >
           <p className={`relative text-right ${projectTitle}`}>{p.title}</p>
           <p className={`relative mt-[0.12em] text-right ${projectSub}`}>{t(p.subKey)}</p>

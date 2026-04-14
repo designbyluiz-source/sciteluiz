@@ -52,6 +52,9 @@ const MESSAGES = {
     projectCrypto: "Design de banco cripto",
     projectWeb: "Design de sites",
     projectBank: "Design de app bancário",
+    projectLogo: "Design de logo cripto",
+    projectStreaming: "Design de streaming",
+    projectGateway: "Gateway de pagamento white label",
   },
   en: {
     navHome: "Home",
@@ -91,6 +94,9 @@ const MESSAGES = {
     projectCrypto: "Crypto banking design",
     projectWeb: "Website design",
     projectBank: "Banking app design",
+    projectLogo: "Crypto logo design",
+    projectStreaming: "Streaming design",
+    projectGateway: "Payment gateway white label",
   },
   es: {
     navHome: "Inicio",
@@ -130,6 +136,9 @@ const MESSAGES = {
     projectCrypto: "Diseño de banca cripto",
     projectWeb: "Diseño web",
     projectBank: "Diseño de app bancaria",
+    projectLogo: "Diseño de logo cripto",
+    projectStreaming: "Diseño de streaming",
+    projectGateway: "Gateway de pago white label",
   },
 } as const;
 
