@@ -181,7 +181,7 @@ function ContactColumn() {
             {item.label}
           </p>
           <p
-            className={`relative mt-[0.12em] max-w-[min(434px,100%)] break-all text-right ${projectSub}`}
+            className={`relative mt-[0.12em] max-w-full whitespace-nowrap text-right ${projectSub} hide-scrollbar overflow-x-auto`}
             data-node-id={item.nodeUrl}
           >
             {item.url}
