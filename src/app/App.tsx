@@ -1,500 +1,262 @@
-import imgFrame5 from "../assets/24ed2fdde7b0356be69eb847960e469f7c342c23.png";
-import imgFrame6 from "../assets/dea83ccece2367a9ef6dbad9c1009b587db11e08.png";
-import imgHeroMobile from "../assets/hero-portrait-mobile.png";
-import imgGallery1 from "../assets/0a066664ae5eea137b87861cac14ac3c376dcb90.png";
-import imgGallery2 from "../assets/cfd07b2dc7954a1147ec72a2578d26cca32a12cf.png";
-import imgGallery3 from "../assets/8021915750859e35d2c2e8edfb22f9cf611b7783.png";
-import imgGallery4 from "../assets/1d4962aca37671503ec872bfef5995beac3b04ed.png";
-import imgGallery5 from "../assets/527c891f9ca86d362ad4ae91971a26d1d3858c5c.png";
-import imgGallery6 from "../assets/836c9c8d27c743f084e07231013f92330fbbee73.png";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useState, type CSSProperties, type ReactNode } from "react";
 import { Link, useLocation } from "react-router";
-import { LoadingScreen } from "./components/loading-screen";
-import { Logo } from "./components/Logo";
-import { NavButton } from "./components/NavButton";
-import { ContactFooter } from "./components/ContactFooter";
-import { WorkProjectSection } from "./components/WorkProjectSection";
+import { MetaballShaderBackground } from "./components/MetaballShaderBackground";
 
-const galleryImages = [imgGallery1, imgGallery2, imgGallery3, imgGallery4, imgGallery5, imgGallery6];
-
-const workProjects = [
-  {
-    slug: "globaldex",
-    name: "GLOBALDEX",
-    desc: ["REBRAND", "UX|UI"] as string[],
-    images: [imgGallery1, imgGallery2, imgGallery4],
-    viewHref: "/projects/globaldex",
-  },
-  {
-    slug: "gates2b",
-    name: "GATES2B",
-    desc: ["REBRAND", "UX|UI"] as string[],
-    images: [imgGallery2, imgGallery5, imgGallery6],
-    viewHref: "/projects/gates2b",
-  },
-  {
-    slug: "qofrinho",
-    name: "QOFRINHO",
-    desc: ["DESIGN", "&", "DEVELOPMENT"] as string[],
-    images: [imgGallery3, imgGallery1, imgGallery6],
-    viewHref: "/projects/qofrinho",
-  },
+const projects: { title: string; subtitle: string }[] = [
+  { title: "GLOBALDEX", subtitle: "Crypto Banking Design" },
+  { title: "GATES2B", subtitle: "Crypto Banking Design" },
+  { title: "QUANTUM", subtitle: "Website Design" },
+  { title: "SALLES FERREIRA", subtitle: "Website Design" },
+  { title: "QOFRINHO", subtitle: "Banking APP Design" },
+  { title: "QOFRINHO", subtitle: "Banking APP Design" },
 ];
 
-/** Mesma linguagem do hamburger fixo (#502506 + traços brancos) */
-function HamburgerIcon({ open }: { open: boolean }) {
-  const line = "block h-[2px] w-[22px] rounded-full bg-white transition-transform duration-300 ease-out";
+const homeIntroParagraphs = [
+  "Born in Curitiba, Brazil, I've been working as a UX/UI designer for over 6 years. I believe design can go beyond interfaces, creating meaningful connections between people and digital products.",
+  "With a strong focus on clarity, usability, and intention, I design experiences that simplify complexity and bring ideas to life in a practical and engaging way.",
+  "I'm constantly exploring new approaches to make digital products feel more intuitive, human, and impactful.",
+];
+
+/** Fluid sizing — Figma + vmin; shell pad drives symmetric rail (absolute, out of flow) */
+const SHELL_PAD = "clamp(10px, 3vmin, 30px)";
+const framePad = "p-[clamp(10px,3vmin,30px)]";
+const nameSize = "text-[clamp(1.35rem,5.2vmin,3.375rem)]";
+const roleSize = "text-[clamp(0.7rem,2.05vmin,1.375rem)]";
+const navSize = "text-[clamp(0.72rem,1.72vmin,1.08rem)]";
+const navGap = "gap-[clamp(5px,1.15vmin,11px)]";
+const brandGap = "gap-[clamp(10px,2.2vmin,24px)]";
+const projectTitle = "text-[clamp(1.65rem,8.5vmin,5.5rem)] leading-[1.02]";
+const projectSub = "text-[clamp(0.85rem,3vmin,2rem)] leading-tight";
+const projectStackGap = "gap-[clamp(32px,5vmin,96px)]";
+const introSize = "text-[clamp(0.85rem,2.05vmin,1.375rem)]";
+
+type ColorMode = "light" | "dark";
+
+function ThemeModeRail({
+  mode,
+  onMode,
+  isDark,
+}: {
+  mode: ColorMode;
+  onMode: (m: ColorMode) => void;
+  isDark: boolean;
+}) {
+  const label = isDark ? "text-white" : "text-black";
+  const boxOn = isDark ? "border-white bg-white" : "border-black bg-black";
+  const boxOff = isDark ? "border-white bg-transparent" : "border-black bg-white";
+  const font = "font-['Darker_Grotesque',sans-serif]";
+
+  const optionGap = "gap-[clamp(10px,1.6vmin,14px)]";
+
   return (
-    <span className="relative flex h-[18px] w-[22px] flex-col justify-center gap-[5px]" aria-hidden>
-      <span className={`${line} origin-center ${open ? "translate-y-[7px] rotate-45" : ""}`} />
-      <span className={`${line} ${open ? "scale-x-0 opacity-0" : ""}`} />
-      <span className={`${line} origin-center ${open ? "-translate-y-[7px] -rotate-45" : ""}`} />
-    </span>
+    <aside
+      className={`pointer-events-auto flex h-full min-h-0 w-full flex-col items-center justify-end bg-transparent pb-[clamp(6px,1.2vmin,14px)] ${font}`}
+      aria-label="Color mode"
+    >
+      <div
+        role="radiogroup"
+        aria-orientation="vertical"
+        className="flex flex-col items-center gap-[clamp(1.35rem,3.2vmin,2.25rem)]"
+      >
+        <label className={`flex cursor-pointer flex-col items-center ${optionGap} ${label}`}>
+          <input
+            type="radio"
+            name="color-mode"
+            value="dark"
+            checked={mode === "dark"}
+            onChange={() => onMode("dark")}
+            className="sr-only"
+          />
+          <span className={`size-3 shrink-0 border ${mode === "dark" ? boxOn : boxOff}`} aria-hidden />
+          <span
+            className={`origin-center rotate-[-90deg] select-none whitespace-nowrap text-[clamp(11px,1.5vmin,16px)] font-normal uppercase tracking-wide ${label}`}
+          >
+            DARK
+          </span>
+        </label>
+        <label className={`flex cursor-pointer flex-col items-center ${optionGap} ${label}`}>
+          <input
+            type="radio"
+            name="color-mode"
+            value="light"
+            checked={mode === "light"}
+            onChange={() => onMode("light")}
+            className="sr-only"
+          />
+          <span className={`size-3 shrink-0 border ${mode === "light" ? boxOn : boxOff}`} aria-hidden />
+          <span
+            className={`origin-center rotate-[-90deg] select-none whitespace-nowrap text-[clamp(11px,1.5vmin,16px)] font-normal uppercase tracking-wide ${label}`}
+          >
+            LIGHT
+          </span>
+        </label>
+      </div>
+    </aside>
   );
 }
 
-function MobileMenuHamburgerButton({
-  open,
-  onClick,
-  "aria-label": ariaLabel,
-  "aria-expanded": ariaExpanded,
-  "aria-controls": ariaControls,
-}: {
-  open: boolean;
-  onClick: () => void;
-  "aria-label": string;
-  "aria-expanded"?: boolean;
-  "aria-controls"?: string;
-}) {
+function HomeIntroColumn() {
   return (
-    <button
-      type="button"
-      className="flex size-[52px] shrink-0 items-center justify-center rounded-full bg-[#502506] text-white shadow-sm transition-transform duration-200 active:scale-[0.97] md:hidden"
-      style={{ boxShadow: "0 2px 12px rgba(80, 37, 6, 0.35)" }}
-      aria-expanded={ariaExpanded}
-      aria-controls={ariaControls}
-      aria-label={ariaLabel}
-      onClick={onClick}
+    <div
+      className="flex h-full min-h-0 w-full max-w-[min(374px,100%)] shrink-0 flex-col items-end justify-end text-black"
+      data-node-id="10:105"
     >
-      <HamburgerIcon open={open} />
-    </button>
+      <div
+        className={`w-full text-right font-['Darker_Grotesque',sans-serif] font-normal leading-normal ${introSize}`}
+        data-node-id="15:190"
+      >
+        {homeIntroParagraphs.map((text, i) => (
+          <p key={i} className="mb-[0.85em] last:mb-0">
+            {text}
+          </p>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ProjectsColumn() {
+  return (
+    <div
+      className={`hide-scrollbar flex min-h-0 min-w-0 flex-1 flex-col items-end ${projectStackGap} overflow-y-auto overflow-x-hidden overscroll-y-contain text-right font-['Darker_Grotesque',sans-serif] font-normal leading-normal`}
+      data-node-id="10:105"
+      role="region"
+      aria-label="Projects"
+    >
+      {projects.map((p, i) => (
+        <div
+          key={`${p.title}-${i}`}
+          className="flex w-full min-w-0 max-w-full shrink-0 flex-col items-end [&_p]:max-w-full [&_p]:break-words"
+          data-node-id={["10:106", "10:109", "10:112", "10:162", "10:158", "10:166"][i]}
+        >
+          <p className={`relative text-right ${projectTitle}`}>{p.title}</p>
+          <p className={`relative mt-[0.12em] text-right ${projectSub}`}>{p.subtitle}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/** No font-weight — selected row uses parent `ul` bold + disc; inactive adds `font-normal` */
+const navLinkBase =
+  "font-['Darker_Grotesque',sans-serif] text-inherit no-underline hover:opacity-80";
+const navInactive = `${navLinkBase} font-normal`;
+
+/** Selected nav — same markup/styles as Figma Home row (bold + disc + Darker Grotesque + nav size) */
+function NavSelectedItem({ "data-node-id": dataNodeId, children }: { "data-node-id"?: string; children: ReactNode }) {
+  return (
+    <ul
+      className={`block w-full font-['Darker_Grotesque',sans-serif] font-bold leading-none ${navSize}`}
+      data-node-id={dataNodeId}
+    >
+      <li className="ms-6 list-disc">
+        <span className="leading-normal" aria-current="page">
+          {children}
+        </span>
+      </li>
+    </ul>
   );
 }
 
 export default function App() {
-  const location = useLocation();
-  const heroRef = useRef<HTMLDivElement>(null);
-  const heroParallaxBgRef = useRef<HTMLDivElement>(null);
-  const heroParallaxPersonMobileRef = useRef<HTMLImageElement>(null);
-  const heroParallaxPersonDesktopRef = useRef<HTMLImageElement>(null);
-  const heroParallaxNavRef = useRef<HTMLElement>(null);
-  const heroParallaxTitleRef = useRef<HTMLDivElement>(null);
-  const heroParallaxMarqueeRef = useRef<HTMLDivElement>(null);
-  const [heroFullyCovered, setHeroFullyCovered] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [pageReady, setPageReady] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const aboutSectionRef = useRef<HTMLElement>(null);
-  const [aboutInView, setAboutInView] = useState(false);
-  const [aboutMotionReduced, setAboutMotionReduced] = useState(false);
-
-  useEffect(() => {
-    if (!mobileMenuOpen) return;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [mobileMenuOpen]);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(min-width: 768px)");
-    const close = () => {
-      if (mq.matches) setMobileMenuOpen(false);
-    };
-    mq.addEventListener("change", close);
-    return () => mq.removeEventListener("change", close);
-  }, []);
-
-  useEffect(() => {
-    // Mark page as ready once all images/resources loaded
-    if (document.readyState === "complete") {
-      setPageReady(true);
-    } else {
-      const handler = () => setPageReady(true);
-      window.addEventListener("load", handler);
-      return () => window.removeEventListener("load", handler);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (loading) return;
-    const id = location.hash.replace(/^#/, "");
-    if (!id) return;
-    const frame = requestAnimationFrame(() => {
-      document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-    return () => cancelAnimationFrame(frame);
-  }, [loading, location.hash, location.pathname]);
-
-  useEffect(() => {
-    if (loading) return;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    setAboutMotionReduced(reduced);
-    if (reduced) {
-      setAboutInView(true);
-      return;
-    }
-    const el = aboutSectionRef.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setAboutInView(true);
-          obs.disconnect();
-        }
-      },
-      { threshold: 0.12, rootMargin: "0px 0px -10% 0px" },
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, [loading]);
-
-  /** Parallax via rAF + DOM (sem setState no scroll) = fluido em produção */
-  useLayoutEffect(() => {
-    if (loading) return;
-
-    const applyParallax = () => {
-      const y = window.scrollY;
-      const bg = heroParallaxBgRef.current;
-      if (bg) bg.style.transform = `translate3d(0, ${y * 0.3}px, 0)`;
-
-      const pm = heroParallaxPersonMobileRef.current;
-      if (pm) pm.style.transform = `translate3d(-50%, ${y * 0.15}px, 0)`;
-
-      const pd = heroParallaxPersonDesktopRef.current;
-      if (pd) pd.style.transform = `translate3d(0, ${y * 0.15}px, 0)`;
-
-      const nav = heroParallaxNavRef.current;
-      if (nav) {
-        nav.style.transform = `translate3d(0, ${y * 0.5}px, 0)`;
-        nav.style.opacity = String(Math.max(0, 1 - y / 400));
-      }
-
-      const title = heroParallaxTitleRef.current;
-      if (title) {
-        title.style.transform = `translate3d(0, ${y * 0.6}px, 0)`;
-        title.style.opacity = String(Math.max(0, 1 - y / 500));
-      }
-
-      const mq = heroParallaxMarqueeRef.current;
-      if (mq) mq.style.transform = `translate3d(0, ${y * 0.8}px, 0)`;
-
-    };
-
-    let ticking = false;
-    const onScroll = () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(() => {
-          applyParallax();
-          ticking = false;
-        });
-      }
-    };
-
-    applyParallax();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [loading]);
-
-  useLayoutEffect(() => {
-    if (loading) return;
-    const hero = heroRef.current;
-    if (!hero) return;
-    const obs = new IntersectionObserver(
-      ([entry]) => {
-        setHeroFullyCovered(!entry.isIntersecting);
-      },
-      { threshold: 0, rootMargin: "0px" }
-    );
-    obs.observe(hero);
-    return () => obs.disconnect();
-  }, [loading]);
-
-  useEffect(() => {
-    if (!mobileMenuOpen) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setMobileMenuOpen(false);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [mobileMenuOpen]);
-
-  if (loading) {
-    return <LoadingScreen pageReady={pageReady} onComplete={() => setLoading(false)} />;
-  }
+  const [mode, setMode] = useState<ColorMode>("light");
+  const isDark = mode === "dark";
+  const { pathname } = useLocation();
+  const isProjects = pathname === "/projects";
 
   return (
-    <div className="w-full">
-      {/* Fixed Hamburger icon */}
+    <div
+      className={`relative box-border flex h-dvh max-h-dvh w-full max-w-[100vw] flex-col items-stretch overflow-hidden ${isDark ? "bg-black" : "bg-white"}`}
+      data-name="Desktop - 4"
+      data-node-id="10:92"
+      style={
+        {
+          padding: SHELL_PAD,
+          ["--shell-pad" as string]: SHELL_PAD,
+        } as CSSProperties
+      }
+    >
       <div
-        className={`fixed right-8 md:right-20 lg:right-40 top-10 z-50 size-[86px] md:size-[75px] cursor-pointer transition-all duration-300 ${
-          heroFullyCovered ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4 pointer-events-none"
-        }`}
+        className="pointer-events-auto absolute z-30 flex justify-center"
+        style={{
+          left: "calc(var(--shell-pad) * 0.5)",
+          top: "var(--shell-pad)",
+          bottom: "var(--shell-pad)",
+          width: "clamp(18px, 2.6vmin, 28px)",
+          transform: "translateX(-50%)",
+        }}
       >
-        <svg className="block size-full" fill="none" viewBox="0 0 86 86">
-          <rect fill="#502506" height="86" rx="43" width="86" />
-          <line stroke="white" strokeWidth="3" x1="16.28" x2="69.72" y1="34.5" y2="34.5" />
-          <line stroke="white" strokeWidth="3" x1="16.28" x2="69.72" y1="48.5" y2="48.5" />
-        </svg>
+        <ThemeModeRail mode={mode} onMode={setMode} isDark={isDark} />
       </div>
 
-      {mobileMenuOpen ? (
-        <>
-          <button
-            type="button"
-            className="fixed inset-0 z-[55] bg-[#2e1f26]/55 backdrop-blur-sm md:hidden"
-            aria-label="Fechar menu"
-            onClick={() => setMobileMenuOpen(false)}
-          />
+      <div className={`relative z-10 flex min-h-0 min-w-0 flex-1 flex-col ${isDark ? "invert" : ""}`}>
+          <div className="pointer-events-none absolute inset-0 bg-white" aria-hidden>
+            <MetaballShaderBackground className="object-cover" />
+          </div>
+
           <div
-            id="hero-mobile-nav"
-            className="fixed left-0 right-0 top-0 z-[60] max-h-[min(100dvh,100%)] overflow-y-auto md:hidden rounded-b-[28px] border-b-2 border-[#c77840] bg-[#2e1f26] px-6 pb-10 pt-[max(1rem,env(safe-area-inset-top,0px)+0.5rem)] shadow-[0_24px_48px_rgba(46,31,38,0.45)]"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Menu"
+            className="relative z-10 flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden border border-black/10"
+            data-node-id="10:93"
           >
-            <div className="mx-auto mb-8 flex w-full max-w-sm items-center justify-between gap-4">
-              <p className="font-['Space_Grotesk',sans-serif] font-bold text-[#c77840] text-lg tracking-wide">
-                MENU
-              </p>
-              <MobileMenuHamburgerButton
-                open
-                aria-label="Fechar menu"
-                onClick={() => setMobileMenuOpen(false)}
-              />
-            </div>
-            <div className="mx-auto flex w-full max-w-sm flex-col gap-3">
-              <NavButton
-                variant="dark"
-                label="WORK"
-                href="#work"
-                className="w-full py-4 [&_p]:text-[18px] [&_p]:md:text-[19px]"
-                onClick={() => setMobileMenuOpen(false)}
-              />
-              <NavButton
-                variant="dark"
-                label="ABOUT"
-                to="/about"
-                className="w-full py-4 [&_p]:text-[18px] [&_p]:md:text-[19px]"
-                onClick={() => setMobileMenuOpen(false)}
-              />
-              <NavButton
-                variant="dark"
-                label="CONTACT"
-                href="#contact"
-                className="w-full py-4 [&_p]:text-[18px] [&_p]:md:text-[19px]"
-                onClick={() => setMobileMenuOpen(false)}
-              />
-            </div>
-          </div>
-        </>
-      ) : null}
-
-      {/* Hero Section */}
-      <div ref={heroRef} className="relative w-full h-screen min-h-[600px] flex flex-col items-center justify-between overflow-hidden">
-        {/* Background layers */}
-        <div
-          ref={heroParallaxBgRef}
-          className="absolute inset-0 pointer-events-none will-change-transform [transform:translate3d(0,0,0)]"
-        >
-          <img alt="" className="absolute object-cover size-full" src={imgFrame5} />
-          <div className="absolute bg-[rgba(199,120,64,0.5)] inset-0" />
-          <div className="absolute inset-0 overflow-hidden">
-            {/* Mobile: retrato com espaço em cima; desktop: arte original */}
-            <img
-              ref={heroParallaxPersonMobileRef}
-              alt=""
-              className="absolute bottom-0 left-1/2 h-[min(76vh,620px)] w-auto max-w-[96%] object-contain object-bottom will-change-transform [transform:translate3d(-50%,0,0)] md:hidden"
-              src={imgHeroMobile}
-            />
-            <img
-              ref={heroParallaxPersonDesktopRef}
-              alt=""
-              className="absolute top-[16%] left-[10.6%] hidden h-[84%] max-w-none w-[78.8%] object-contain will-change-transform [transform:translate3d(0,0,0)] md:block"
-              src={imgFrame6}
-            />
-          </div>
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent from-[65%] to-[#2e1f26]" />
-        </div>
-
-        {/* Nav */}
-        <nav
-          ref={heroParallaxNavRef}
-          className="relative z-20 w-full flex items-center justify-between px-6 md:px-10 pt-6 md:pt-10 will-change-transform"
-        >
-          <Logo />
-          <div className="hidden md:flex gap-3 items-center">
-            <NavButton label="WORK" href="#work" />
-            <NavButton label="ABOUT" to="/about" />
-            <NavButton label="CONTACT" href="#contact" />
-          </div>
-          <MobileMenuHamburgerButton
-            open={mobileMenuOpen}
-            aria-expanded={mobileMenuOpen}
-            aria-controls="hero-mobile-nav"
-            aria-label={mobileMenuOpen ? "Fechar menu" : "Abrir menu"}
-            onClick={() => setMobileMenuOpen((o) => !o)}
-          />
-        </nav>
-
-        {/* Title */}
-        <div
-          ref={heroParallaxTitleRef}
-          className="relative z-10 w-full flex justify-end px-10 md:px-40 will-change-transform"
-        >
-          <p className="font-['Space_Grotesk',sans-serif] font-bold text-[#2e1f26] text-3xl md:text-[32px] lg:text-[34px] md:leading-tight text-left">
-            FREELANCE
-            <br />
-            DESIGNER UX|UI
-          </p>
-        </div>
-
-        {/* Bottom marquee: 2 cópias idênticas + translate3d(-50%) = loop contínuo sem reset visível */}
-        <div
-          ref={heroParallaxMarqueeRef}
-          className="relative z-10 w-full overflow-hidden pb-12 md:pb-20 will-change-transform"
-        >
-          <div className="hero-marquee-track font-['Space_Grotesk',sans-serif] font-bold text-[#2e1f26] text-6xl sm:text-8xl md:text-[131px] lg:text-[175px]">
-            <span className="flex shrink-0 gap-20 md:gap-44 pr-20 md:pr-44">
-              <span>USER EXPERIENCE</span>
-              <span>USER INTERFACE</span>
-            </span>
-            <span className="flex shrink-0 gap-20 md:gap-44 pr-20 md:pr-44" aria-hidden="true">
-              <span>USER EXPERIENCE</span>
-              <span>USER INTERFACE</span>
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* About Section */}
-      <section
-        id="about"
-        ref={aboutSectionRef}
-        className="relative w-full scroll-mt-6 bg-[#2e1f26] px-8 pb-10 pt-32 md:px-20 md:pt-48 lg:px-40"
-      >
-        {/* Content */}
-        <div className="mb-24 flex flex-col gap-12 md:mb-40 lg:flex-row lg:gap-20">
-          <div
-            className={`lg:w-[55%] ${
-              aboutMotionReduced ? "" : "transition-[opacity,transform] duration-[850ms] ease-out"
-            } ${aboutInView ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
-          >
-            <p className="font-['Space_Grotesk',sans-serif] text-xl font-bold text-[#c77840] sm:text-2xl md:text-[29px] md:leading-snug">
-              Helping brands turn complexity into clarity through design.
-              <br />
-              Together we build products that scale, convert and feel effortless.
-              <br />
-              No noise, just thoughtful UX and sharp UI.
-            </p>
-          </div>
-          <div
-            className={`flex items-center lg:w-[45%] ${
-              aboutMotionReduced ? "" : "transition-[opacity,transform] duration-[850ms] ease-out"
-            } ${aboutInView ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
-            style={
-              aboutMotionReduced
-                ? undefined
-                : { transitionDelay: aboutInView ? "120ms" : "0ms" }
-            }
-          >
-            <p className="max-w-[386px] font-['Space_Grotesk',sans-serif] text-base font-bold text-[#c77840] md:max-w-[338px] md:text-[17px] md:leading-snug">
-              I'm a UX/UI Designer focused on creating intuitive, high-impact digital experiences.
-              <br />
-              Blending strategy, design systems and product thinking to deliver real results.
-            </p>
-          </div>
-        </div>
-
-        {/* Bottom row */}
-        <div
-          className={`flex items-end justify-between ${
-            aboutMotionReduced ? "" : "transition-[opacity,transform] duration-[850ms] ease-out"
-          } ${aboutInView ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
-          style={
-            aboutMotionReduced ? undefined : { transitionDelay: aboutInView ? "240ms" : "0ms" }
-          }
-        >
-          <p className="font-['Space_Grotesk',sans-serif] text-base text-[#c77840] md:text-lg">
-            RECENT WORK
-          </p>
-          <Link
-            to="/about"
-            className="group flex cursor-pointer items-center justify-center rounded-full bg-[#c77840] px-10 py-16 no-underline transition-transform duration-300 hover:scale-110 md:py-20"
-            onMouseMove={(e) => {
-              const rect = e.currentTarget.getBoundingClientRect();
-              const x = (e.clientX - rect.left - rect.width / 2) * 0.35;
-              const y = (e.clientY - rect.top - rect.height / 2) * 0.35;
-              e.currentTarget.style.transform = `translate(${x}px, ${y}px) scale(1.1)`;
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "";
-            }}
-          >
-            <p className="whitespace-nowrap font-['Space_Grotesk',sans-serif] text-xl font-bold text-[#2e1f26] md:text-2xl">
-              About Me
-            </p>
-          </Link>
-        </div>
-      </section>
-
-      <WorkProjectSection projects={workProjects} />
-
-      {/* Gallery Carousel Section */}
-      <section className="bg-[#2e1f26] w-full py-16 md:py-24 flex flex-col gap-[62px] md:gap-[54px] overflow-hidden">
-        {/* Top row - left to right */}
-        <div className="group overflow-hidden">
-          <div className="flex gap-[87px] md:gap-[76px] animate-carousel-ltr hover:[animation-play-state:paused]">
-            {[...Array(4)].flatMap((_, setIdx) =>
-              galleryImages.map((src, i) => (
-                <div
-                  key={`top-${setIdx}-${i}`}
-                  className="h-[200px] md:h-[313px] w-[300px] md:w-[463px] shrink-0 overflow-hidden rounded-sm"
-                >
-                  <img
-                    alt=""
-                    className="object-cover size-full transition-transform duration-500 hover:scale-110 cursor-pointer"
-                    src={src}
-                  />
+            <div
+              className={`relative flex min-h-0 min-w-0 flex-1 flex-row items-stretch justify-between gap-[clamp(8px,2vmin,28px)] overflow-hidden border border-black/50 text-black ${framePad}`}
+              data-node-id="10:94"
+            >
+              <div
+                className={`flex min-h-0 min-w-0 w-[min(100%,42vw)] max-w-[min(434px,46%)] shrink-0 flex-col items-start ${brandGap} overflow-hidden`}
+                data-node-id="10:95"
+              >
+                <div className="flex w-full min-w-0 flex-col items-start leading-normal" data-node-id="10:96">
+                  <p
+                    className={`w-full min-w-0 font-['Darker_Grotesque',sans-serif] font-light leading-none tracking-[-0.04em] ${nameSize}`}
+                    data-node-id="10:97"
+                  >
+                    Luiz Eduardo
+                  </p>
+                  <p
+                    className={`mt-[0.15em] w-full min-w-0 font-['Darker_Grotesque',sans-serif] font-normal leading-snug ${roleSize}`}
+                    data-node-id="10:98"
+                  >
+                    Designer UX|UI
+                  </p>
                 </div>
-              ))
-            )}
-          </div>
-        </div>
-
-        {/* Bottom row - right to left */}
-        <div className="group overflow-hidden">
-          <div className="flex gap-[87px] md:gap-[76px] animate-carousel-rtl hover:[animation-play-state:paused]">
-            {[...Array(4)].flatMap((_, setIdx) =>
-              galleryImages.map((src, i) => (
-                <div
-                  key={`bottom-${setIdx}-${i}`}
-                  className="h-[200px] md:h-[313px] w-[300px] md:w-[463px] shrink-0 overflow-hidden rounded-sm"
+                <nav
+                  className={`flex w-max max-w-full min-w-0 flex-col items-stretch ${navGap} ${navSize} leading-normal text-black`}
+                  data-node-id="10:99"
+                  aria-label="Primary"
                 >
-                  <img
-                    alt=""
-                    className="object-cover size-full transition-transform duration-500 hover:scale-110 cursor-pointer"
-                    src={src}
-                  />
-                </div>
-              ))
-            )}
+                  {isProjects ? (
+                    <Link to="/" className={navInactive} data-node-id="10:100">
+                      Home
+                    </Link>
+                  ) : (
+                    <NavSelectedItem data-node-id="10:100">Home</NavSelectedItem>
+                  )}
+                  {isProjects ? (
+                    <NavSelectedItem data-node-id="10:101">Projects</NavSelectedItem>
+                  ) : (
+                    <p className="font-['Darker_Grotesque',sans-serif] font-normal" data-node-id="10:101">
+                      <Link to="/projects" className={navInactive}>
+                        Projects
+                      </Link>
+                    </p>
+                  )}
+                  <p className="font-['Darker_Grotesque',sans-serif] font-normal" data-node-id="10:102">
+                    Info
+                  </p>
+                  <p className="font-['Darker_Grotesque',sans-serif] font-normal" data-node-id="10:103">
+                    Contact
+                  </p>
+                  <p className="font-['Darker_Grotesque',sans-serif] font-normal" data-node-id="10:104">
+                    FAQ
+                  </p>
+                </nav>
+              </div>
+
+              {isProjects ? <ProjectsColumn /> : <HomeIntroColumn />}
+            </div>
           </div>
         </div>
-      </section>
-
-      <ContactFooter />
     </div>
   );
 }
