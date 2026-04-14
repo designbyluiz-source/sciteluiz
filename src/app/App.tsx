@@ -137,6 +137,61 @@ function ProjectsColumn() {
   );
 }
 
+const contactLinks: { label: string; url: string; nodeTitle: string; nodeUrl: string }[] = [
+  {
+    label: "BEHANCE >",
+    url: "https://www.behance.net/luizeddossan4",
+    nodeTitle: "16:241",
+    nodeUrl: "16:242",
+  },
+  {
+    label: "LINKEDIN >",
+    url: "https://www.linkedin.com/in/luizeduardoeugenio/",
+    nodeTitle: "16:244",
+    nodeUrl: "16:245",
+  },
+  {
+    label: "WHATSAPP >",
+    url: "https://wa.me/5541999890046",
+    nodeTitle: "16:263",
+    nodeUrl: "16:264",
+  },
+];
+
+const contactBlockIds = ["16:240", "16:243", "16:262"] as const;
+
+function ContactColumn() {
+  return (
+    <div
+      className={`flex h-full min-h-0 min-w-0 flex-1 flex-col items-end justify-end gap-[clamp(20px,3vmin,54px)] text-right font-['Darker_Grotesque',sans-serif] font-normal leading-normal text-black`}
+      data-node-id="16:233"
+      role="region"
+      aria-label="Contact"
+    >
+      {contactLinks.map((item, i) => (
+        <a
+          key={item.url}
+          href={item.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex max-w-full flex-col items-end no-underline text-inherit outline-offset-4 hover:opacity-90"
+          data-node-id={contactBlockIds[i]}
+        >
+          <p className={`relative text-right ${projectTitle}`} data-node-id={item.nodeTitle}>
+            {item.label}
+          </p>
+          <p
+            className={`relative mt-[0.12em] max-w-[min(434px,100%)] break-all text-right ${projectSub}`}
+            data-node-id={item.nodeUrl}
+          >
+            {item.url}
+          </p>
+        </a>
+      ))}
+    </div>
+  );
+}
+
 /** No font-weight — selected row uses parent `ul` bold + disc; inactive adds `font-normal` */
 const navLinkBase =
   "font-['Darker_Grotesque',sans-serif] text-inherit no-underline hover:opacity-80";
@@ -162,7 +217,9 @@ export default function App() {
   const [mode, setMode] = useState<ColorMode>("light");
   const isDark = mode === "dark";
   const { pathname } = useLocation();
+  const isHome = pathname === "/";
   const isProjects = pathname === "/projects";
+  const isContact = pathname === "/contact";
 
   return (
     <div
@@ -225,12 +282,12 @@ export default function App() {
                   data-node-id="10:99"
                   aria-label="Primary"
                 >
-                  {isProjects ? (
+                  {isHome ? (
+                    <NavSelectedItem data-node-id="10:100">Home</NavSelectedItem>
+                  ) : (
                     <Link to="/" className={navInactive} data-node-id="10:100">
                       Home
                     </Link>
-                  ) : (
-                    <NavSelectedItem data-node-id="10:100">Home</NavSelectedItem>
                   )}
                   {isProjects ? (
                     <NavSelectedItem data-node-id="10:101">Projects</NavSelectedItem>
@@ -241,19 +298,19 @@ export default function App() {
                       </Link>
                     </p>
                   )}
-                  <p className="font-['Darker_Grotesque',sans-serif] font-normal" data-node-id="10:102">
-                    Info
-                  </p>
-                  <p className="font-['Darker_Grotesque',sans-serif] font-normal" data-node-id="10:103">
-                    Contact
-                  </p>
-                  <p className="font-['Darker_Grotesque',sans-serif] font-normal" data-node-id="10:104">
-                    FAQ
-                  </p>
+                  {isContact ? (
+                    <NavSelectedItem data-node-id="16:231">Contact</NavSelectedItem>
+                  ) : (
+                    <p className="font-['Darker_Grotesque',sans-serif] font-normal" data-node-id="10:103">
+                      <Link to="/contact" className={navInactive}>
+                        Contact
+                      </Link>
+                    </p>
+                  )}
                 </nav>
               </div>
 
-              {isProjects ? <ProjectsColumn /> : <HomeIntroColumn />}
+              {isProjects ? <ProjectsColumn /> : isContact ? <ContactColumn /> : <HomeIntroColumn />}
             </div>
           </div>
         </div>
