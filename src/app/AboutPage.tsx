@@ -135,7 +135,7 @@ export default function AboutPage() {
                 {/* invert cancels out the parent wrapper's invert so the photo keeps its original colours */}
                 <img
                   alt="Luiz Eduardo"
-                  className={`absolute bottom-0 left-1/2 -translate-x-1/2 pointer-events-none h-auto w-[88%] sm:w-[48%]${isDark ? " invert" : ""}`}
+                  className={`absolute bottom-0 left-1/2 -translate-x-1/2 pointer-events-none h-auto w-[88%] sm:max-w-[260px]${isDark ? " invert" : ""}`}
                   src={portrait}
                 />
               </div>
