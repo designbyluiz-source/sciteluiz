@@ -17,14 +17,14 @@ const projectDefs: readonly { title: string; subKey: MessageKey }[] = [
 const SHELL_PAD = "clamp(10px, 3vmin, 30px)";
 const framePad = "p-[clamp(10px,3vmin,30px)]";
 const nameSize = "text-[clamp(1.35rem,5.2vmin,3.375rem)]";
-const roleSize = "text-[clamp(0.7rem,2.05vmin,1.375rem)]";
-const navSize = "text-[clamp(0.72rem,1.72vmin,1.08rem)]";
-const navGap = "gap-[clamp(5px,1.15vmin,11px)]";
+const roleSize = "text-[clamp(0.85rem,2.05vmin,1.375rem)]";
+const navSize = "text-[clamp(0.9rem,1.72vmin,1.08rem)]";
+const navGap = "gap-[clamp(6px,1.15vmin,11px)]";
 const brandGap = "gap-[clamp(10px,2.2vmin,24px)]";
 const projectTitle = "text-[clamp(1.65rem,8.5vmin,5.5rem)] leading-[1.02]";
-const projectSub = "text-[clamp(0.85rem,3vmin,2rem)] leading-tight";
+const projectSub = "text-[clamp(0.9rem,3vmin,2rem)] leading-tight";
 const projectStackGap = "gap-[clamp(32px,5vmin,96px)]";
-const introSize = "text-[clamp(0.85rem,2.05vmin,1.375rem)]";
+const introSize = "text-[clamp(1rem,2.05vmin,1.375rem)]";
 
 type ColorMode = "light" | "dark";
 
@@ -97,7 +97,7 @@ function HomeIntroColumn() {
   const keys: MessageKey[] = ["home1", "home2", "home3"];
   return (
     <div
-      className="flex h-full min-h-0 w-full max-w-[min(374px,100%)] shrink-0 flex-col items-end justify-end text-black"
+      className="hide-scrollbar flex min-h-0 w-full flex-1 flex-col items-end justify-start overflow-y-auto overscroll-contain text-black sm:max-w-[min(374px,100%)] sm:shrink-0 sm:justify-end"
       data-node-id="10:105"
     >
       <div
@@ -268,11 +268,11 @@ export default function App() {
             data-node-id="10:93"
           >
             <div
-              className={`relative flex min-h-0 min-w-0 flex-1 flex-row items-stretch justify-between gap-[clamp(8px,2vmin,28px)] overflow-hidden border border-black/50 text-black ${framePad}`}
+              className={`relative flex min-h-0 min-w-0 flex-1 flex-col sm:flex-row items-stretch justify-between gap-[clamp(8px,2vmin,28px)] overflow-hidden border border-black/50 text-black ${framePad}`}
               data-node-id="10:94"
             >
               <div
-                className={`flex min-h-0 min-w-0 w-[min(100%,42vw)] max-w-[min(434px,46%)] shrink-0 flex-col items-start ${brandGap} overflow-hidden`}
+                className={`flex min-h-0 min-w-0 w-full sm:w-[min(100%,42vw)] sm:max-w-[min(434px,46%)] shrink-0 flex-col items-start ${brandGap} overflow-hidden`}
                 data-node-id="10:95"
               >
                 <div className="flex w-full min-w-0 flex-col items-start leading-normal" data-node-id="10:96">

@@ -7,8 +7,8 @@ import portrait from "../assets/about-portrait.png";
 
 const SHELL_PAD = "clamp(10px, 3vmin, 30px)";
 const framePad = "p-[clamp(10px,3vmin,30px)]";
-const introSize = "text-[clamp(0.85rem,2.05vmin,1.375rem)]";
-const backSize = "text-[clamp(1.75rem,4.2vmin,3.375rem)]";
+const introSize = "text-[clamp(1rem,2.05vmin,1.375rem)]";
+const backSize = "text-[clamp(1.25rem,4.2vmin,3.375rem)]";
 
 type ColorMode = "light" | "dark";
 
@@ -111,12 +111,12 @@ export default function AboutPage() {
         >
           {/* Inner border + content */}
           <div
-            className={`relative flex min-h-0 min-w-0 flex-1 flex-row items-stretch justify-between gap-[clamp(8px,2vmin,28px)] overflow-hidden border border-black/50 ${framePad}`}
+            className={`relative flex min-h-0 min-w-0 flex-1 flex-col sm:flex-row items-stretch justify-between gap-[clamp(8px,2vmin,28px)] overflow-hidden border border-black/50 ${framePad}`}
             data-node-id="17:281"
           >
             {/* LEFT: back link + portrait */}
             <div
-              className="flex min-h-0 min-w-0 flex-1 flex-col items-start gap-[clamp(10px,2.4vmin,24px)]"
+              className="flex min-w-0 shrink-0 flex-col items-start gap-[clamp(10px,2.4vmin,24px)] sm:flex-1 sm:min-h-0"
               data-node-id="17:282"
             >
               <Link
@@ -127,9 +127,9 @@ export default function AboutPage() {
                 {t("aboutBack")}
               </Link>
 
-              {/* Portrait container — bleed to bottom border via negative margin */}
+              {/* Portrait container — fixed height on mobile, flex-1 on desktop; bleeds to bottom border */}
               <div
-                className="relative min-h-0 w-full flex-1 overflow-hidden mb-[calc(-1*clamp(10px,3vmin,30px))]"
+                className="relative w-full overflow-hidden h-[48vw] sm:min-h-0 sm:flex-1 mb-[calc(-1*clamp(10px,3vmin,30px))]"
                 data-node-id="17:346"
               >
                 <img
@@ -143,7 +143,7 @@ export default function AboutPage() {
 
             {/* RIGHT: bio text + projects link */}
             <div
-              className="hide-scrollbar flex min-h-0 w-[min(374px,100%)] max-w-[min(374px,42%)] shrink-0 flex-col items-end justify-start overflow-y-auto overscroll-contain"
+              className="hide-scrollbar flex min-h-0 w-full flex-1 flex-col items-end justify-start overflow-y-auto overscroll-contain sm:w-[min(374px,100%)] sm:max-w-[min(374px,42%)] sm:flex-none sm:shrink-0"
               data-node-id="17:388"
             >
               <div
