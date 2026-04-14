@@ -1,6 +1,6 @@
 import { type CSSProperties } from "react";
 import { Link } from "react-router";
-import globaldexCover from "../assets/globaldex-cover.png";
+import quantumCover from "../assets/quantum-cover.png";
 import { LanguageRail } from "./components/LanguageRail";
 import { MetaballShaderBackground } from "./components/MetaballShaderBackground";
 import { projectSiteUrls } from "./projectSiteUrls";
@@ -110,7 +110,7 @@ export default function ProjectQuantumPage() {
 
               <div className="flex w-full flex-1 items-center justify-center">
                 <div className="group relative w-[min(100%,778px)] aspect-[778/539] overflow-hidden rounded-[40px]">
-                  <img alt="Quantum project cover" className={`absolute inset-0 h-full w-full object-cover${isDark ? " invert" : ""}`} src={globaldexCover} />
+                  <img alt="Quantum project cover" className={`absolute inset-0 h-full w-full object-cover${isDark ? " invert" : ""}`} src={quantumCover} />
                   <div className="pointer-events-none absolute inset-0 z-[1] rounded-[40px] bg-black/45 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                   <a
                     href={projectSiteUrls.quantum}

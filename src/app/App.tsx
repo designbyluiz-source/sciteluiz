@@ -7,7 +7,7 @@ import { useColorMode, type ColorMode } from "./useColorMode";
 
 const projectDefs: readonly { title: string; subKey: MessageKey; href?: string }[] = [
   { title: "GLOBALDEX", subKey: "projectCrypto", href: "/projects/globaldex" },
-  { title: "GATES2B", subKey: "projectCrypto", href: "/projects/gates2b" },
+  { title: "GATES2B", subKey: "projectPaymentGateway", href: "/projects/gates2b" },
   { title: "QUANTUM", subKey: "projectWeb", href: "/projects/quantum" },
   { title: "SALLES FERREIRA", subKey: "projectWeb", href: "/projects/salles-ferreira" },
   { title: "QOFRINHO", subKey: "projectBank", href: "/projects/qofrinho" },
