@@ -4,8 +4,8 @@ import { LanguageRail } from "./components/LanguageRail";
 import { MetaballShaderBackground } from "./components/MetaballShaderBackground";
 import { useLanguage, type MessageKey } from "./language";
 
-const projectDefs: readonly { title: string; subKey: MessageKey }[] = [
-  { title: "GLOBALDEX", subKey: "projectCrypto" },
+const projectDefs: readonly { title: string; subKey: MessageKey; href?: string }[] = [
+  { title: "GLOBALDEX", subKey: "projectCrypto", href: "/projects/globaldex" },
   { title: "GATES2B", subKey: "projectCrypto" },
   { title: "QUANTUM", subKey: "projectWeb" },
   { title: "SALLES FERREIRA", subKey: "projectWeb" },
@@ -139,7 +139,13 @@ function ProjectsColumn() {
           className="flex w-full min-w-0 max-w-full shrink-0 flex-col items-end [&_p]:max-w-full [&_p]:break-words"
           data-node-id={projectNodeIds[i]}
         >
-          <p className={`relative text-right ${projectTitle}`}>{p.title}</p>
+          {p.href ? (
+            <Link to={p.href} className={`relative text-right no-underline text-inherit hover:opacity-80 ${projectTitle}`}>
+              {p.title}
+            </Link>
+          ) : (
+            <p className={`relative text-right ${projectTitle}`}>{p.title}</p>
+          )}
           <p className={`relative mt-[0.12em] text-right ${projectSub}`}>{t(p.subKey)}</p>
         </div>
       ))}

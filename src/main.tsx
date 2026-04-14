@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router";
 import App from "./app/App.tsx";
 import AboutPage from "./app/AboutPage.tsx";
+import ProjectGlobalDexPage from "./app/ProjectGlobalDexPage.tsx";
 import { WelcomePreloader } from "./app/components/WelcomePreloader.tsx";
 import { LanguageProvider } from "./app/language.tsx";
 import "./styles/index.css";
@@ -21,6 +22,7 @@ function RoutesWithPreloader() {
     <>
       <Routes>
         <Route path="/sobre-mim" element={<AboutPage />} />
+        <Route path="/projects/globaldex" element={<ProjectGlobalDexPage />} />
         <Route path="/projects" element={<App />} />
         <Route path="/contact" element={<App />} />
         <Route path="/" element={<App />} />
