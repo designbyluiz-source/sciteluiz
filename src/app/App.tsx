@@ -6,10 +6,10 @@ import { useLanguage, type MessageKey } from "./language";
 
 const projectDefs: readonly { title: string; subKey: MessageKey; href?: string }[] = [
   { title: "GLOBALDEX", subKey: "projectCrypto", href: "/projects/globaldex" },
-  { title: "GATES2B", subKey: "projectCrypto" },
-  { title: "QUANTUM", subKey: "projectWeb" },
-  { title: "SALLES FERREIRA", subKey: "projectWeb" },
-  { title: "QOFRINHO", subKey: "projectBank" },
+  { title: "GATES2B", subKey: "projectCrypto", href: "/projects/gates2b" },
+  { title: "QUANTUM", subKey: "projectWeb", href: "/projects/quantum" },
+  { title: "SALLES FERREIRA", subKey: "projectWeb", href: "/projects/salles-ferreira" },
+  { title: "QOFRINHO", subKey: "projectBank", href: "/projects/qofrinho" },
   { title: "MESA", subKey: "projectLogo" },
   { title: "FOXPLAYER", subKey: "projectStreaming" },
   { title: "QUICKWAY", subKey: "projectGateway" },

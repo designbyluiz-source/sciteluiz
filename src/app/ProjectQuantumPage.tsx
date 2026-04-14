@@ -12,7 +12,7 @@ const bodySize = "text-[clamp(1rem,2.05vmin,1.375rem)]";
 
 type ColorMode = "light" | "dark";
 
-export default function ProjectGlobalDexPage() {
+export default function ProjectQuantumPage() {
   const [mode, setMode] = useState<ColorMode>("light");
   const isDark = mode === "dark";
   const { t } = useLanguage();
@@ -26,8 +26,6 @@ export default function ProjectGlobalDexPage() {
   return (
     <div
       className={`relative box-border flex h-dvh max-h-dvh w-full max-w-[100vw] flex-col items-stretch overflow-hidden ${isDark ? "bg-black" : "bg-white"}`}
-      data-name="Desktop - 8"
-      data-node-id="30:65"
       style={
         {
           padding: SHELL_PAD,
@@ -61,7 +59,7 @@ export default function ProjectGlobalDexPage() {
             <label className={`flex cursor-pointer flex-col items-center ${optionGap} ${label}`}>
               <input
                 type="radio"
-                name="color-mode-globaldex"
+                name="color-mode-quantum"
                 value="dark"
                 checked={mode === "dark"}
                 onChange={() => setMode("dark")}
@@ -77,7 +75,7 @@ export default function ProjectGlobalDexPage() {
             <label className={`flex cursor-pointer flex-col items-center ${optionGap} ${label}`}>
               <input
                 type="radio"
-                name="color-mode-globaldex"
+                name="color-mode-quantum"
                 value="light"
                 checked={mode === "light"}
                 onChange={() => setMode("light")}
@@ -99,98 +97,106 @@ export default function ProjectGlobalDexPage() {
           <MetaballShaderBackground className="object-cover" />
         </div>
 
-        <div className="relative z-10 flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden border border-black/10" data-node-id="30:66">
+        <div className="relative z-10 flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden border border-black/10">
           <div
             className={`relative flex min-h-0 min-w-0 flex-1 flex-col sm:flex-row items-stretch justify-between gap-[clamp(8px,2vmin,28px)] overflow-hidden border border-black/50 ${framePad}`}
-            data-node-id="30:67"
           >
-            <div
-              className="flex min-w-0 shrink-0 flex-col items-start gap-[clamp(10px,2.4vmin,24px)] sm:flex-1 sm:min-h-0"
-              data-node-id="30:68"
-            >
+            <div className="flex min-w-0 shrink-0 flex-col items-start gap-[clamp(10px,2.4vmin,24px)] sm:flex-1 sm:min-h-0">
               <Link
                 to="/projects"
                 className={`shrink-0 font-['Darker_Grotesque',sans-serif] font-light leading-none text-black no-underline hover:opacity-70 ${headingSize}`}
-                data-node-id="30:70"
               >
-                {"< GLOBALDEX"}
+                {"< QUANTUM"}
               </Link>
 
               <div className="flex w-full flex-1 items-center justify-center">
-                <div
-                  className="relative w-[min(100%,778px)] aspect-[778/539] overflow-hidden rounded-[40px]"
-                  data-node-id="30:86"
-                >
-                  <img alt="GlobalDex project cover" className={`absolute inset-0 h-full w-full object-cover${isDark ? " invert" : ""}`} src={globaldexCover} />
+                <div className="relative w-[min(100%,778px)] aspect-[778/539] overflow-hidden rounded-[40px]">
+                  <img alt="Quantum project cover" className={`absolute inset-0 h-full w-full object-cover${isDark ? " invert" : ""}`} src={globaldexCover} />
                 </div>
               </div>
             </div>
 
             <div
               className={`hide-scrollbar flex min-h-0 w-full flex-1 flex-col items-start gap-[clamp(24px,3.2vmin,54px)] overflow-y-auto overscroll-contain font-['Darker_Grotesque',sans-serif] font-normal leading-normal text-black ${bodySize} sm:w-[min(374px,100%)] sm:max-w-[min(374px,42%)] sm:flex-none sm:shrink-0`}
-              data-node-id="30:72"
             >
-              <div className="w-full" data-node-id="30:73">
-                <p className="font-bold">Designing financial infrastructure for scale.</p>
+              <div className="w-full">
+                <p className="font-bold">Connecting technology, capital and innovation.</p>
                 <p className="mt-[0.7em]">
-                  GlobalDex e uma plataforma focada em operacoes financeiras digitais, onde a complexidade tecnica exige clareza extrema na experiencia.
+                  Quantum e um ecossistema financeiro global que conecta diferentes produtos e mercados em uma unica estrutura integrada.
                 </p>
               </div>
 
-              <div className="w-full" data-node-id="30:88">
-                <p>
-                  A GlobalDex nasce dentro de um cenario onde produtos financeiros deixam de ser apenas "apps" e passam a ser infraestrutura de operacao.
+              <div className="w-full">
+                <p className="font-bold">Contexto</p>
+                <p className="mt-[0.7em]">
+                  A Quantum nao e um produto unico - e um grupo com multiplas solucoes interligadas, cobrindo desde banking ate infraestrutura e liquidez.
                 </p>
                 <p className="mt-[0.7em]">
-                  O desafio nao era apenas desenhar telas - era estruturar uma experiencia capaz de lidar com multiplos fluxos financeiros, alta densidade de informacao e decisoes criticas em tempo real.
+                  O site precisava comunicar isso de forma clara: nao apenas apresentar produtos, mas traduzir um ecossistema complexo em algo compreensivel e estrategico.
                 </p>
               </div>
 
-              <div className="w-full" data-node-id="30:90">
+              <div className="w-full">
                 <p className="font-bold">Desafio</p>
                 <ul className="mt-[0.7em] list-disc ps-[1.25em]">
-                  <li>Traduzir operacoes complexas em fluxos compreensiveis</li>
-                  <li>Reduzir carga cognitiva em um ambiente tecnico</li>
-                  <li>Criar consistencia entre diferentes tipos de transacoes</li>
-                  <li>Garantir confianca em cada interacao</li>
-                  <li>Manter performance e clareza mesmo com grande volume de dados</li>
+                  <li>Representar multiplos produtos em uma narrativa unica</li>
+                  <li>Comunicar valor institucional com clareza e autoridade</li>
+                  <li>Organizar grande volume de informacao sem sobrecarregar</li>
+                  <li>Equilibrar conteudo tecnico com acessibilidade</li>
+                  <li>Criar uma experiencia alinhada ao posicionamento global</li>
                 </ul>
               </div>
 
-              <div className="w-full" data-node-id="30:92">
+              <div className="w-full">
                 <p className="font-bold">Abordagem</p>
                 <p className="mt-[0.7em]">O projeto foi conduzido com foco em tres pilares:</p>
                 <p className="mt-[0.7em]">
-                  <span className="font-bold">Clareza acima de tudo:</span> Cada decisao de UI foi guiada pela reducao de ambiguidade.
+                  <span className="font-bold">Narrativa de ecossistema</span>
+                  <br />
+                  A estrutura do site foi pensada para mostrar como cada produto se conecta dentro do todo.
                 </p>
                 <p className="mt-[0.7em]">
-                  <span className="font-bold">Sistema antes de tela:</span> Construcao de um design system modular, permitindo escala e consistencia.
+                  <span className="font-bold">Clareza institucional</span>
+                  <br />
+                  Conteudo organizado para transmitir confianca, escala e solidez.
                 </p>
                 <p className="mt-[0.7em]">
-                  <span className="font-bold">Feedback constante:</span> Estados, confirmacoes e retornos visuais pensados para dar seguranca ao usuario.
+                  <span className="font-bold">Hierarquia editorial</span>
+                  <br />
+                  Uso de tipografia, espacamento e blocos para guiar leitura e absorcao de informacao.
                 </p>
               </div>
 
-              <div className="w-full" data-node-id="30:94">
+              <div className="w-full">
                 <p className="font-bold">Solucao</p>
                 <ul className="mt-[0.7em] list-disc ps-[1.25em]">
-                  <li>Estruturacao de fluxos financeiros complexos em etapas claras</li>
-                  <li>Padronizacao de componentes criticos (inputs, tabelas, status, alerts)</li>
-                  <li>Hierarquia visual forte para leitura rapida de dados</li>
-                  <li>Uso estrategico de contraste e espacamento</li>
-                  <li>Interface pensada para uso recorrente e intensivo</li>
+                  <li>Estrutura modular para apresentacao dos produtos do grupo</li>
+                  <li>Secoes bem definidas para ecossistema, historia e operacao global</li>
+                  <li>Destaque para dados estrategicos e presenca internacional</li>
+                  <li>Interface limpa com foco em leitura e escaneabilidade</li>
+                  <li>Construcao de narrativa progressiva ao longo da pagina</li>
                 </ul>
               </div>
 
-              <div className="w-full" data-node-id="30:96">
+              <div className="w-full">
+                <p className="font-bold">Resultado</p>
+                <ul className="mt-[0.7em] list-disc ps-[1.25em]">
+                  <li>Comunicacao mais clara do posicionamento da empresa</li>
+                  <li>Melhor entendimento do ecossistema por parte do usuario</li>
+                  <li>Fortalecimento da percepcao de autoridade e escala</li>
+                  <li>Base consistente para expansao institucional</li>
+                </ul>
+              </div>
+
+              <div className="w-full">
                 <p className="font-bold">Meu papel</p>
                 <p className="mt-[0.7em]">UX/UI Designer</p>
                 <p className="mt-[0.7em]">
-                  Atuei na definicao da experiencia, arquitetura da informacao e construcao da interface, colaborando diretamente com produto e desenvolvimento para garantir viabilidade e consistencia.
+                  Atuei na definicao da estrutura do site, organizacao da informacao e construcao da interface, alinhando narrativa, design e posicionamento estrategico.
                 </p>
               </div>
 
-              <Link to="/projects/gates2b" className="w-full font-bold no-underline text-inherit hover:opacity-80" data-node-id="30:98">
+              <Link to="/projects/salles-ferreira" className="w-full font-bold no-underline text-inherit hover:opacity-80">
                 {"PROXIMO PROJETO>"}
               </Link>
             </div>

@@ -3,8 +3,7 @@ import { Link } from "react-router";
 import { LanguageRail } from "./components/LanguageRail";
 import { MetaballShaderBackground } from "./components/MetaballShaderBackground";
 import { useLanguage, type MessageKey } from "./language";
-
-const FIGMA_ABOUT_PHOTO = "http://localhost:3845/assets/5e0bdf9cd4508d3a4ebb9744df42d90b4f136523.png";
+import aboutPortrait from "../assets/about-portrait.png";
 
 const SHELL_PAD = "clamp(10px, 3vmin, 30px)";
 const framePad = "p-[clamp(10px,3vmin,30px)]";
@@ -137,7 +136,7 @@ export default function AboutPage() {
                   <img
                     alt="Luiz Eduardo"
                     className={`absolute inset-0 h-full w-full object-cover object-[center_18%]${isDark ? " invert" : ""}`}
-                    src={FIGMA_ABOUT_PHOTO}
+                    src={aboutPortrait}
                   />
                 </div>
               </div>
