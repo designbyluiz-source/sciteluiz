@@ -3,7 +3,8 @@ import { Link } from "react-router";
 import { LanguageRail } from "./components/LanguageRail";
 import { MetaballShaderBackground } from "./components/MetaballShaderBackground";
 import { useLanguage, type MessageKey } from "./language";
-import portrait from "../assets/about-portrait.png";
+
+const FIGMA_ABOUT_PHOTO = "http://localhost:3845/assets/5e0bdf9cd4508d3a4ebb9744df42d90b4f136523.png";
 
 const SHELL_PAD = "clamp(10px, 3vmin, 30px)";
 const framePad = "p-[clamp(10px,3vmin,30px)]";
@@ -127,16 +128,15 @@ export default function AboutPage() {
                 {t("aboutBack")}
               </Link>
 
-              {/* Portrait container — fixed height on mobile, flex-1 on desktop; bleeds to bottom border */}
+              {/* Portrait card — matches Figma rounded photo card instead of floating cutout */}
               <div
-                className="relative w-full overflow-hidden aspect-[894/646] sm:aspect-auto sm:min-h-0 sm:flex-1 mb-[calc(-1*clamp(10px,3vmin,30px))]"
-                data-node-id="17:346"
+                className="relative mt-[clamp(8px,2.2vmin,28px)] w-[min(100%,370px)] aspect-[370/555] self-center overflow-hidden rounded-[40px] sm:h-[555px] sm:w-[370px] sm:aspect-auto"
+                data-node-id="27:5"
               >
-                {/* invert cancels out the parent wrapper's invert so the photo keeps its original colours */}
                 <img
                   alt="Luiz Eduardo"
-                  className={`absolute bottom-0 left-1/2 -translate-x-1/2 pointer-events-none h-auto w-[88%] sm:w-[48%] sm:max-w-[420px]${isDark ? " invert" : ""}`}
-                  src={portrait}
+                  className={`absolute inset-0 h-full w-full object-cover object-[center_18%]${isDark ? " invert" : ""}`}
+                  src={FIGMA_ABOUT_PHOTO}
                 />
               </div>
             </div>
