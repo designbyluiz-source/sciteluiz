@@ -6,6 +6,7 @@ import qofrinhoScroll3 from "../assets/qofrinho-scroll3.png";
 import qofrinhoScroll4 from "../assets/qofrinho-scroll4.png";
 import { LanguageRail } from "./components/LanguageRail";
 import { MetaballShaderBackground } from "./components/MetaballShaderBackground";
+import { ProjectScrollArrows } from "./components/ProjectScrollArrows";
 import { projectCopy } from "./projectCopy";
 import { projectSiteUrls } from "./projectSiteUrls";
 import { useLanguage, type Locale } from "./language";
@@ -161,7 +162,7 @@ export default function ProjectQofrinhoPage() {
                 {"< QOFRINHO"}
               </Link>
 
-              <div className="flex w-full flex-1 items-center justify-center">
+              <div className="relative flex w-full min-h-0 flex-1 flex-col items-center justify-center gap-[clamp(10px,2.5vmin,20px)] sm:gap-0">
                 <div
                   className="group relative w-[min(100%,720px)] aspect-[778/539] overflow-hidden rounded-[40px]"
                   role="img"
@@ -186,6 +187,10 @@ export default function ProjectQofrinhoPage() {
                     QOFRINHO
                   </a>
                 </div>
+                <ProjectScrollArrows
+                  scrollTargetRef={copyScrollRef}
+                  className="shrink-0 sm:absolute sm:bottom-[clamp(14px,4.2vmin,40px)] sm:right-0 sm:z-[4] sm:translate-x-1/2"
+                />
               </div>
             </div>
 
@@ -252,7 +257,7 @@ export default function ProjectQofrinhoPage() {
                 <p className="mt-[0.7em]">{copy.roleBody}</p>
               </div>
 
-              <Link to="/projects" className="w-full font-bold no-underline text-inherit hover:opacity-80">
+              <Link to="/projects" className="w-full text-right font-bold no-underline text-inherit hover:opacity-80">
                 {copy.nextProject}
               </Link>
             </div>

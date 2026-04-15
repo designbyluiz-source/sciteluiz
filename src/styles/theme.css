@@ -22,6 +22,29 @@
   display: none;
 }
 
+@keyframes project-scroll-hint-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.35;
+  }
+  50% {
+    transform: translateY(5px);
+    opacity: 1;
+  }
+}
+
+.project-scroll-hint-arrow {
+  animation: project-scroll-hint-bob 1.35s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-scroll-hint-arrow {
+    animation: none;
+    opacity: 0.85;
+  }
+}
+
 :root {
   --font-size: 16px;
   --background: #000000;
