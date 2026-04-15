@@ -1,11 +1,14 @@
-import { type CSSProperties } from "react";
+import { type CSSProperties, useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
-import gates2bCoverBase from "../assets/gates2b-cover-base.png";
-import gates2bCoverOverlay from "../assets/gates2b-cover-overlay.png";
+import gates2bScroll1 from "../assets/gates2b-scroll1.png";
+import gates2bScroll2 from "../assets/gates2b-scroll2.png";
+import gates2bScroll3 from "../assets/gates2b-scroll3.png";
+import gates2bScroll4 from "../assets/gates2b-scroll4.png";
 import { LanguageRail } from "./components/LanguageRail";
 import { MetaballShaderBackground } from "./components/MetaballShaderBackground";
+import { projectCopy } from "./projectCopy";
 import { projectSiteUrls } from "./projectSiteUrls";
-import { useLanguage } from "./language";
+import { useLanguage, type Locale } from "./language";
 import { useColorMode } from "./useColorMode";
 
 const SHELL_PAD = "clamp(10px, 3vmin, 30px)";
@@ -13,9 +16,59 @@ const framePad = "p-[clamp(10px,3vmin,30px)]";
 const headingSize = "text-[clamp(1.25rem,4.2vmin,3.375rem)]";
 const bodySize = "text-[clamp(1rem,2.05vmin,1.375rem)]";
 
+const GATES2B_SLIDE_SRC = [gates2bScroll1, gates2bScroll2, gates2bScroll3, gates2bScroll4] as const;
+const GATES2B_SLIDE_COUNT = GATES2B_SLIDE_SRC.length;
+
+/** Filename order 1 … 4 — one slide per quarter of copy scroll. */
+const gates2bSlideAriaLabels: Record<Locale, readonly string[]> = {
+  "pt-BR": [
+    "Mockup Gates2B: transações e resumo financeiro",
+    "Mockup Gates2B: criar cobrança — passo valor",
+    "Mockup Gates2B: checkout e catálogo de produtos",
+    "Mockup Gates2B: limites e tarifas da conta",
+  ],
+  en: [
+    "Gates2B mockup: transactions and financial summary",
+    "Gates2B mockup: create charge — amount step",
+    "Gates2B mockup: checkout and product catalog",
+    "Gates2B mockup: account limits and fees",
+  ],
+  es: [
+    "Mockup Gates2B: transacciones y resumen financiero",
+    "Mockup Gates2B: crear cobro — paso importe",
+    "Mockup Gates2B: checkout y catálogo de productos",
+    "Mockup Gates2B: límites y comisiones de la cuenta",
+  ],
+};
+
 export default function ProjectGates2BPage() {
   const { mode, setMode, isDark } = useColorMode("light");
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
+  const copy = projectCopy.gates2b[locale];
+  const copyScrollRef = useRef<HTMLDivElement>(null);
+  const [slideIndex, setSlideIndex] = useState(0);
+
+  const syncImageFromScroll = useCallback(() => {
+    const el = copyScrollRef.current;
+    if (!el) return;
+    const max = el.scrollHeight - el.clientHeight;
+    const progress = max <= 0 ? 0 : el.scrollTop / max;
+    const idx = Math.min(GATES2B_SLIDE_COUNT - 1, Math.floor(progress * GATES2B_SLIDE_COUNT));
+    setSlideIndex(idx);
+  }, []);
+
+  useEffect(() => {
+    const el = copyScrollRef.current;
+    if (!el) return;
+    syncImageFromScroll();
+    el.addEventListener("scroll", syncImageFromScroll, { passive: true });
+    const ro = new ResizeObserver(syncImageFromScroll);
+    ro.observe(el);
+    return () => {
+      el.removeEventListener("scroll", syncImageFromScroll);
+      ro.disconnect();
+    };
+  }, [syncImageFromScroll, locale]);
 
   const label = isDark ? "text-white" : "text-black";
   const boxOn = isDark ? "border-white bg-white" : "border-black bg-black";
@@ -110,9 +163,20 @@ export default function ProjectGates2BPage() {
               </Link>
 
               <div className="flex w-full flex-1 items-center justify-center">
-                <div className="group relative w-[min(100%,720px)] aspect-[778/539] overflow-hidden rounded-[40px]">
-                  <img alt="Gates2B project cover background" className={`absolute inset-0 h-full w-full object-cover${isDark ? " invert" : ""}`} src={gates2bCoverBase} />
-                  <img alt="Gates2B project cover" className={`absolute inset-0 h-full w-full object-cover${isDark ? " invert" : ""}`} src={gates2bCoverOverlay} />
+                <div
+                  className="group relative w-[min(100%,720px)] aspect-[778/539] overflow-hidden rounded-[40px]"
+                  role="img"
+                  aria-label={gates2bSlideAriaLabels[locale][slideIndex]}
+                >
+                  {GATES2B_SLIDE_SRC.map((src, i) => (
+                    <img
+                      key={src}
+                      alt=""
+                      aria-hidden
+                      className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ease-out${isDark ? " invert" : ""} ${slideIndex === i ? "opacity-100" : "opacity-0"}`}
+                      src={src}
+                    />
+                  ))}
                   <div className="pointer-events-none absolute inset-0 z-[1] rounded-[40px] bg-black/45 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                   <a
                     href={projectSiteUrls.gates2b}
@@ -127,87 +191,67 @@ export default function ProjectGates2BPage() {
             </div>
 
             <div
-              className={`hide-scrollbar flex min-h-0 w-full flex-1 flex-col items-start gap-[clamp(24px,3.2vmin,54px)] overflow-y-auto overscroll-contain font-['Darker_Grotesque',sans-serif] font-normal leading-normal text-black ${bodySize} sm:w-[min(374px,100%)] sm:max-w-[min(374px,42%)] sm:flex-none sm:shrink-0`}
+              ref={copyScrollRef}
+              className={`hide-scrollbar flex min-h-0 w-full flex-1 flex-col items-start gap-[clamp(36px,4.2vmin,76px)] overflow-y-auto overscroll-contain font-['Darker_Grotesque',sans-serif] font-normal leading-normal text-black ${bodySize} sm:w-[min(374px,100%)] sm:max-w-[min(374px,42%)] sm:flex-none sm:shrink-0`}
             >
               <div className="w-full">
-                <p className="font-bold">Powering multi-rail financial operations.</p>
-                <p className="mt-[0.7em]">
-                  Gates2B e uma infraestrutura de pagamentos que conecta diferentes meios em um unico fluxo, exigindo uma experiencia clara mesmo em cenarios altamente tecnicos.
-                </p>
+                <p className="font-bold">{copy.introTitle}</p>
+                <p className="mt-[0.7em]">{copy.introBody}</p>
               </div>
 
               <div className="w-full">
-                <p className="font-bold">Contexto</p>
-                <p className="mt-[0.7em]">
-                  O produto foi pensado para empresas que operam com multiplos meios de pagamento e precisam de centralizacao, previsibilidade e controle.
-                </p>
-                <p className="mt-[0.7em]">
-                  Diferente de um banco tradicional, o desafio aqui envolve orquestrar fluxos entre diferentes rails, moedas e regras operacionais.
-                </p>
+                <p className="font-bold">{copy.contextTitle}</p>
+                <p className="mt-[0.7em]">{copy.contextP1}</p>
+                <p className="mt-[0.7em]">{copy.contextP2}</p>
               </div>
 
               <div className="w-full">
-                <p className="font-bold">Desafio</p>
+                <p className="font-bold">{copy.challengeTitle}</p>
                 <ul className="mt-[0.7em] list-disc ps-[1.25em]">
-                  <li>Organizar multiplos meios de pagamento em uma experiencia unificada</li>
-                  <li>Tornar visivel o fluxo de liquidacao e conversao</li>
-                  <li>Reduzir complexidade operacional para o usuario</li>
-                  <li>Garantir transparencia em regras, prazos e taxas</li>
-                  <li>Criar uma base escalavel para diferentes mercados</li>
+                  {copy.challengeItems.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
                 </ul>
               </div>
 
               <div className="w-full">
-                <p className="font-bold">Abordagem</p>
-                <p className="mt-[0.7em]">O projeto foi conduzido com foco em tres pilares:</p>
-                <p className="mt-[0.7em]">
-                  <span className="font-bold">Orquestracao clara</span>
-                  <br />
-                  A experiencia foi desenhada para tornar visivel o que normalmente e invisivel: o caminho do dinheiro.
-                </p>
-                <p className="mt-[0.7em]">
-                  <span className="font-bold">Transparencia operacional</span>
-                  <br />
-                  Cada etapa do fluxo comunica estado, prazo e condicao.
-                </p>
-                <p className="mt-[0.7em]">
-                  <span className="font-bold">Escala como premissa</span>
-                  <br />
-                  Arquitetura de interface pensada para expansao de novos meios e regioes.
-                </p>
+                <p className="font-bold">{copy.approachTitle}</p>
+                <p className="mt-[0.7em]">{copy.approachIntro}</p>
+                {copy.approachPillars.map((pillar) => (
+                  <p key={pillar.label} className="mt-[0.7em]">
+                    <span className="font-bold">{pillar.label}</span>
+                    <br />
+                    {pillar.body}
+                  </p>
+                ))}
               </div>
 
               <div className="w-full">
-                <p className="font-bold">Solucao</p>
+                <p className="font-bold">{copy.solutionTitle}</p>
                 <ul className="mt-[0.7em] list-disc ps-[1.25em]">
-                  <li>Visualizacao estruturada dos fluxos de pagamento</li>
-                  <li>Componentes modulares para diferentes tipos de transacao</li>
-                  <li>Interface orientada a status e estados claros</li>
-                  <li>Organizacao de dados com foco em leitura rapida</li>
-                  <li>Integracao entre cobranca, liquidacao e saque</li>
+                  {copy.solutionItems.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
                 </ul>
               </div>
 
               <div className="w-full">
-                <p className="font-bold">Resultado</p>
+                <p className="font-bold">{copy.resultTitle}</p>
                 <ul className="mt-[0.7em] list-disc ps-[1.25em]">
-                  <li>Maior clareza em operacoes multi-rail</li>
-                  <li>Reducao de erros operacionais</li>
-                  <li>Aumento de confianca no sistema</li>
-                  <li>Base pronta para expansao internacional</li>
+                  {copy.resultItems.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
                 </ul>
               </div>
 
               <div className="w-full">
-                <p className="font-bold">Meu papel</p>
-                <p className="mt-[0.7em]">UX/UI Designer</p>
-                <p className="mt-[0.7em]">
-                  Atuei na definicao da experiencia, arquitetura da informacao e construcao da interface, alinhando produto, tecnologia e necessidades de negocio.
-                </p>
+                <p className="font-bold">{copy.roleTitle}</p>
+                <p className="mt-[0.7em]">{copy.roleName}</p>
+                <p className="mt-[0.7em]">{copy.roleBody}</p>
               </div>
 
-              <Link to="/projects/quantum" className="w-full font-bold no-underline text-inherit hover:opacity-80">
-                {"PROXIMO PROJETO>"}
+              <Link to="/projects/qofrinho" className="w-full font-bold no-underline text-inherit hover:opacity-80">
+                {copy.nextProject}
               </Link>
             </div>
           </div>

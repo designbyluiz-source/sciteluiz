@@ -1,10 +1,15 @@
-import { type CSSProperties } from "react";
+import { type CSSProperties, useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
-import globaldexCover from "../assets/globaldex-cover.png";
+import globaldexScroll1 from "../assets/globaldex-scroll1.png";
+import globaldexScroll2 from "../assets/globaldex-scroll2.png";
+import globaldexScroll3 from "../assets/globaldex-scroll3.png";
+import globaldexScroll4 from "../assets/globaldex-scroll4.png";
+import globaldexScroll5 from "../assets/globaldex-scroll5.png";
 import { LanguageRail } from "./components/LanguageRail";
 import { MetaballShaderBackground } from "./components/MetaballShaderBackground";
+import { projectCopy } from "./projectCopy";
 import { projectSiteUrls } from "./projectSiteUrls";
-import { useLanguage } from "./language";
+import { useLanguage, type Locale } from "./language";
 import { useColorMode } from "./useColorMode";
 
 const SHELL_PAD = "clamp(10px, 3vmin, 30px)";
@@ -12,9 +17,68 @@ const framePad = "p-[clamp(10px,3vmin,30px)]";
 const headingSize = "text-[clamp(1.25rem,4.2vmin,3.375rem)]";
 const bodySize = "text-[clamp(1rem,2.05vmin,1.375rem)]";
 
+const GLOBALDEX_SLIDE_SRC = [
+  globaldexScroll1,
+  globaldexScroll2,
+  globaldexScroll3,
+  globaldexScroll4,
+  globaldexScroll5,
+] as const;
+const GLOBALDEX_SLIDE_COUNT = GLOBALDEX_SLIDE_SRC.length;
+
+/** Ordered by filename prefix 1 … 5 — one slide per fifth of copy scroll. */
+const globaldexSlideAriaLabels: Record<Locale, readonly string[]> = {
+  "pt-BR": [
+    "Mockup GlobalDex: composição com vários telemóveis e gráfico de Bitcoin",
+    "Mockup GlobalDex: carteira, saldo e ativos",
+    "Mockup GlobalDex: introdução à aba Carteira",
+    "Mockup GlobalDex: exportar extrato — confirmação por e-mail",
+    "Mockup GlobalDex: seleção de método de pagamento (PIX, USDT, SEPA)",
+  ],
+  en: [
+    "GlobalDex mockup: multi-phone layout with Bitcoin price chart",
+    "GlobalDex mockup: wallet tab, balance and assets",
+    "GlobalDex mockup: onboarding tooltip for the Wallet tab",
+    "GlobalDex mockup: export statement — email confirmation state",
+    "GlobalDex mockup: payment method selection (PIX, USDT, SEPA)",
+  ],
+  es: [
+    "Mockup GlobalDex: varios móviles y gráfico de Bitcoin",
+    "Mockup GlobalDex: pestaña Cartera, saldo y activos",
+    "Mockup GlobalDex: introducción a la pestaña Cartera",
+    "Mockup GlobalDex: exportar extracto — confirmación por correo",
+    "Mockup GlobalDex: selección de método de pago (PIX, USDT, SEPA)",
+  ],
+};
+
 export default function ProjectGlobalDexPage() {
   const { mode, setMode, isDark } = useColorMode("light");
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
+  const copy = projectCopy.globaldex[locale];
+  const copyScrollRef = useRef<HTMLDivElement>(null);
+  const [slideIndex, setSlideIndex] = useState(0);
+
+  const syncImageFromScroll = useCallback(() => {
+    const el = copyScrollRef.current;
+    if (!el) return;
+    const max = el.scrollHeight - el.clientHeight;
+    const progress = max <= 0 ? 0 : el.scrollTop / max;
+    const idx = Math.min(GLOBALDEX_SLIDE_COUNT - 1, Math.floor(progress * GLOBALDEX_SLIDE_COUNT));
+    setSlideIndex(idx);
+  }, []);
+
+  useEffect(() => {
+    const el = copyScrollRef.current;
+    if (!el) return;
+    syncImageFromScroll();
+    el.addEventListener("scroll", syncImageFromScroll, { passive: true });
+    const ro = new ResizeObserver(syncImageFromScroll);
+    ro.observe(el);
+    return () => {
+      el.removeEventListener("scroll", syncImageFromScroll);
+      ro.disconnect();
+    };
+  }, [syncImageFromScroll, locale]);
 
   const label = isDark ? "text-white" : "text-black";
   const boxOn = isDark ? "border-white bg-white" : "border-black bg-black";
@@ -119,8 +183,18 @@ export default function ProjectGlobalDexPage() {
                 <div
                   className="group relative w-[min(100%,720px)] aspect-[778/539] overflow-hidden rounded-[40px]"
                   data-node-id="30:86"
+                  role="img"
+                  aria-label={globaldexSlideAriaLabels[locale][slideIndex]}
                 >
-                  <img alt="GlobalDex project cover" className={`absolute inset-0 h-full w-full object-cover${isDark ? " invert" : ""}`} src={globaldexCover} />
+                  {GLOBALDEX_SLIDE_SRC.map((src, i) => (
+                    <img
+                      key={src}
+                      alt=""
+                      aria-hidden
+                      className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ease-out${isDark ? " invert" : ""} ${slideIndex === i ? "opacity-100" : "opacity-0"}`}
+                      src={src}
+                    />
+                  ))}
                   <div className="pointer-events-none absolute inset-0 z-[1] rounded-[40px] bg-black/45 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                   <a
                     href={projectSiteUrls.globaldex}
@@ -135,71 +209,56 @@ export default function ProjectGlobalDexPage() {
             </div>
 
             <div
-              className={`hide-scrollbar flex min-h-0 w-full flex-1 flex-col items-start gap-[clamp(24px,3.2vmin,54px)] overflow-y-auto overscroll-contain font-['Darker_Grotesque',sans-serif] font-normal leading-normal text-black ${bodySize} sm:w-[min(374px,100%)] sm:max-w-[min(374px,42%)] sm:flex-none sm:shrink-0`}
+              ref={copyScrollRef}
+              className={`hide-scrollbar flex min-h-0 w-full flex-1 flex-col items-start gap-[clamp(36px,4.2vmin,76px)] overflow-y-auto overscroll-contain font-['Darker_Grotesque',sans-serif] font-normal leading-normal text-black ${bodySize} sm:w-[min(374px,100%)] sm:max-w-[min(374px,42%)] sm:flex-none sm:shrink-0`}
               data-node-id="30:72"
             >
               <div className="w-full" data-node-id="30:73">
-                <p className="font-bold">Designing financial infrastructure for scale.</p>
-                <p className="mt-[0.7em]">
-                  GlobalDex e uma plataforma focada em operacoes financeiras digitais, onde a complexidade tecnica exige clareza extrema na experiencia.
-                </p>
+                <p className="font-bold">{copy.introTitle}</p>
+                <p className="mt-[0.7em]">{copy.introBody}</p>
               </div>
 
               <div className="w-full" data-node-id="30:88">
-                <p>
-                  A GlobalDex nasce dentro de um cenario onde produtos financeiros deixam de ser apenas "apps" e passam a ser infraestrutura de operacao.
-                </p>
-                <p className="mt-[0.7em]">
-                  O desafio nao era apenas desenhar telas - era estruturar uma experiencia capaz de lidar com multiplos fluxos financeiros, alta densidade de informacao e decisoes criticas em tempo real.
-                </p>
+                <p>{copy.overviewP1}</p>
+                <p className="mt-[0.7em]">{copy.overviewP2}</p>
               </div>
 
               <div className="w-full" data-node-id="30:90">
-                <p className="font-bold">Desafio</p>
+                <p className="font-bold">{copy.challengeTitle}</p>
                 <ul className="mt-[0.7em] list-disc ps-[1.25em]">
-                  <li>Traduzir operacoes complexas em fluxos compreensiveis</li>
-                  <li>Reduzir carga cognitiva em um ambiente tecnico</li>
-                  <li>Criar consistencia entre diferentes tipos de transacoes</li>
-                  <li>Garantir confianca em cada interacao</li>
-                  <li>Manter performance e clareza mesmo com grande volume de dados</li>
+                  {copy.challengeItems.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
                 </ul>
               </div>
 
               <div className="w-full" data-node-id="30:92">
-                <p className="font-bold">Abordagem</p>
-                <p className="mt-[0.7em]">O projeto foi conduzido com foco em tres pilares:</p>
-                <p className="mt-[0.7em]">
-                  <span className="font-bold">Clareza acima de tudo:</span> Cada decisao de UI foi guiada pela reducao de ambiguidade.
-                </p>
-                <p className="mt-[0.7em]">
-                  <span className="font-bold">Sistema antes de tela:</span> Construcao de um design system modular, permitindo escala e consistencia.
-                </p>
-                <p className="mt-[0.7em]">
-                  <span className="font-bold">Feedback constante:</span> Estados, confirmacoes e retornos visuais pensados para dar seguranca ao usuario.
-                </p>
+                <p className="font-bold">{copy.approachTitle}</p>
+                <p className="mt-[0.7em]">{copy.approachIntro}</p>
+                {copy.approachPillars.map((pillar) => (
+                  <p key={pillar.label} className="mt-[0.7em]">
+                    <span className="font-bold">{pillar.label}</span> {pillar.body}
+                  </p>
+                ))}
               </div>
 
               <div className="w-full" data-node-id="30:94">
-                <p className="font-bold">Solucao</p>
+                <p className="font-bold">{copy.solutionTitle}</p>
                 <ul className="mt-[0.7em] list-disc ps-[1.25em]">
-                  <li>Estruturacao de fluxos financeiros complexos em etapas claras</li>
-                  <li>Padronizacao de componentes criticos (inputs, tabelas, status, alerts)</li>
-                  <li>Hierarquia visual forte para leitura rapida de dados</li>
-                  <li>Uso estrategico de contraste e espacamento</li>
-                  <li>Interface pensada para uso recorrente e intensivo</li>
+                  {copy.solutionItems.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
                 </ul>
               </div>
 
               <div className="w-full" data-node-id="30:96">
-                <p className="font-bold">Meu papel</p>
-                <p className="mt-[0.7em]">UX/UI Designer</p>
-                <p className="mt-[0.7em]">
-                  Atuei na definicao da experiencia, arquitetura da informacao e construcao da interface, colaborando diretamente com produto e desenvolvimento para garantir viabilidade e consistencia.
-                </p>
+                <p className="font-bold">{copy.roleTitle}</p>
+                <p className="mt-[0.7em]">{copy.roleName}</p>
+                <p className="mt-[0.7em]">{copy.roleBody}</p>
               </div>
 
               <Link to="/projects/gates2b" className="w-full font-bold no-underline text-inherit hover:opacity-80" data-node-id="30:98">
-                {"PROXIMO PROJETO>"}
+                {copy.nextProject}
               </Link>
             </div>
           </div>

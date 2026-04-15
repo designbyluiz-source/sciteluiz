@@ -50,12 +50,8 @@ const MESSAGES = {
       "O que me motiva é a constante evolução das experiências digitais. Estou sempre explorando novas ferramentas, referências e formas de impulsionar o design — não pela tendência, mas para criar produtos mais humanos, eficientes e significativos.",
     aboutProjects: "MEUS PROJETOS >",
     projectCrypto: "Design de banco cripto",
-    projectWeb: "Design de sites",
     projectBank: "Design de app bancário",
     projectPaymentGateway: "Design de gateway de pagamentos",
-    projectLogo: "Design de logo cripto",
-    projectStreaming: "Design de streaming",
-    projectGateway: "Gateway de pagamento white label",
   },
   en: {
     navHome: "Home",
@@ -93,12 +89,8 @@ const MESSAGES = {
       "What motivates me is the constant evolution of digital experiences. I'm always exploring new tools, references, and ways to push design forward — not for the sake of trends, but to create products that are more human, efficient, and meaningful.",
     aboutProjects: "MY PROJECTS >",
     projectCrypto: "Crypto banking design",
-    projectWeb: "Website design",
     projectBank: "Banking app design",
     projectPaymentGateway: "Payment gateway design",
-    projectLogo: "Crypto logo design",
-    projectStreaming: "Streaming design",
-    projectGateway: "Payment gateway white label",
   },
   es: {
     navHome: "Inicio",
@@ -136,12 +128,8 @@ const MESSAGES = {
       "Lo que me motiva es la constante evolución de las experiencias digitales. Siempre estoy explorando nuevas herramientas, referencias y formas de impulsar el diseño — no por las tendencias, sino para crear productos más humanos, eficientes y significativos.",
     aboutProjects: "MIS PROYECTOS >",
     projectCrypto: "Diseño de banca cripto",
-    projectWeb: "Diseño web",
     projectBank: "Diseño de app bancaria",
     projectPaymentGateway: "Diseño de pasarela de pagos",
-    projectLogo: "Diseño de logo cripto",
-    projectStreaming: "Diseño de streaming",
-    projectGateway: "Gateway de pago white label",
   },
 } as const;
 

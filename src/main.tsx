@@ -5,8 +5,6 @@ import App from "./app/App.tsx";
 import AboutPage from "./app/AboutPage.tsx";
 import ProjectGlobalDexPage from "./app/ProjectGlobalDexPage.tsx";
 import ProjectGates2BPage from "./app/ProjectGates2BPage.tsx";
-import ProjectQuantumPage from "./app/ProjectQuantumPage.tsx";
-import ProjectSallesFerreiraPage from "./app/ProjectSallesFerreiraPage.tsx";
 import ProjectQofrinhoPage from "./app/ProjectQofrinhoPage.tsx";
 import { WelcomePreloader } from "./app/components/WelcomePreloader.tsx";
 import { LanguageProvider } from "./app/language.tsx";
@@ -28,8 +26,6 @@ function RoutesWithPreloader() {
         <Route path="/sobre-mim" element={<AboutPage />} />
         <Route path="/projects/globaldex" element={<ProjectGlobalDexPage />} />
         <Route path="/projects/gates2b" element={<ProjectGates2BPage />} />
-        <Route path="/projects/quantum" element={<ProjectQuantumPage />} />
-        <Route path="/projects/salles-ferreira" element={<ProjectSallesFerreiraPage />} />
         <Route path="/projects/qofrinho" element={<ProjectQofrinhoPage />} />
         <Route path="/projects" element={<App />} />
         <Route path="/contact" element={<App />} />

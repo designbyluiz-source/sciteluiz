@@ -8,12 +8,7 @@ import { useColorMode, type ColorMode } from "./useColorMode";
 const projectDefs: readonly { title: string; subKey: MessageKey; href?: string }[] = [
   { title: "GLOBALDEX", subKey: "projectCrypto", href: "/projects/globaldex" },
   { title: "GATES2B", subKey: "projectPaymentGateway", href: "/projects/gates2b" },
-  { title: "QUANTUM", subKey: "projectWeb", href: "/projects/quantum" },
-  { title: "SALLES FERREIRA", subKey: "projectWeb", href: "/projects/salles-ferreira" },
   { title: "QOFRINHO", subKey: "projectBank", href: "/projects/qofrinho" },
-  { title: "MESA", subKey: "projectLogo" },
-  { title: "FOXPLAYER", subKey: "projectStreaming" },
-  { title: "QUICKWAY", subKey: "projectGateway" },
 ];
 
 /** Fluid sizing — Figma + vmin; shell pad drives symmetric rail (absolute, out of flow) */
@@ -28,7 +23,7 @@ const projectTitle = "text-[clamp(1.65rem,8.5vmin,5.5rem)] leading-[1.02]";
 const projectSub = "text-[clamp(0.9rem,3vmin,2rem)] leading-tight";
 const projectStackGap = "gap-[clamp(32px,5vmin,96px)]";
 const introSize = "text-[clamp(1rem,2.05vmin,1.375rem)]";
-const projectNodeIds = ["10:106", "10:109", "10:112", "10:162", "10:158", "10:166"] as const;
+const projectNodeIds = ["10:106", "10:109", "10:158"] as const;
 
 function ThemeModeRail({
   mode,

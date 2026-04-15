@@ -1,10 +1,14 @@
-import { type CSSProperties } from "react";
+import { type CSSProperties, useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
-import qofrinhoCover from "../assets/qofrinho-cover.png";
+import qofrinhoScroll1 from "../assets/qofrinho-scroll1.png";
+import qofrinhoScroll2 from "../assets/qofrinho-scroll2.png";
+import qofrinhoScroll3 from "../assets/qofrinho-scroll3.png";
+import qofrinhoScroll4 from "../assets/qofrinho-scroll4.png";
 import { LanguageRail } from "./components/LanguageRail";
 import { MetaballShaderBackground } from "./components/MetaballShaderBackground";
+import { projectCopy } from "./projectCopy";
 import { projectSiteUrls } from "./projectSiteUrls";
-import { useLanguage } from "./language";
+import { useLanguage, type Locale } from "./language";
 import { useColorMode } from "./useColorMode";
 
 const SHELL_PAD = "clamp(10px, 3vmin, 30px)";
@@ -12,9 +16,58 @@ const framePad = "p-[clamp(10px,3vmin,30px)]";
 const headingSize = "text-[clamp(1.25rem,4.2vmin,3.375rem)]";
 const bodySize = "text-[clamp(1rem,2.05vmin,1.375rem)]";
 
+const QOFRINHO_SLIDE_SRC = [qofrinhoScroll1, qofrinhoScroll2, qofrinhoScroll3, qofrinhoScroll4] as const;
+const QOFRINHO_SLIDE_COUNT = QOFRINHO_SLIDE_SRC.length;
+
+const qofrinhoSlideAriaLabels: Record<Locale, readonly string[]> = {
+  "pt-BR": [
+    "Mockup Qofrinho: tela de desafio com meta por trimestre",
+    "Mockup Qofrinho: lista de desafios, abas e filtros",
+    "Mockup Qofrinho: visão geral do app em vários dispositivos",
+    "Mockup Qofrinho: confirmação de qofre criado com sucesso",
+  ],
+  en: [
+    "Qofrinho mockup: challenge screen with quarterly savings goal",
+    "Qofrinho mockup: challenges list, tabs, and filters",
+    "Qofrinho mockup: app overview across multiple phones",
+    "Qofrinho mockup: success state after creating a savings goal",
+  ],
+  es: [
+    "Mockup Qofrinho: pantalla de desafío con meta trimestral",
+    "Mockup Qofrinho: lista de desafíos, pestañas y filtros",
+    "Mockup Qofrinho: vista general de la app en varios móviles",
+    "Mockup Qofrinho: confirmación de cofre creado con éxito",
+  ],
+};
+
 export default function ProjectQofrinhoPage() {
   const { mode, setMode, isDark } = useColorMode("light");
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
+  const copy = projectCopy.qofrinho[locale];
+  const copyScrollRef = useRef<HTMLDivElement>(null);
+  const [slideIndex, setSlideIndex] = useState(0);
+
+  const syncSlideFromScroll = useCallback(() => {
+    const el = copyScrollRef.current;
+    if (!el) return;
+    const max = el.scrollHeight - el.clientHeight;
+    const progress = max <= 0 ? 0 : el.scrollTop / max;
+    const idx = Math.min(QOFRINHO_SLIDE_COUNT - 1, Math.floor(progress * QOFRINHO_SLIDE_COUNT));
+    setSlideIndex(idx);
+  }, []);
+
+  useEffect(() => {
+    const el = copyScrollRef.current;
+    if (!el) return;
+    syncSlideFromScroll();
+    el.addEventListener("scroll", syncSlideFromScroll, { passive: true });
+    const ro = new ResizeObserver(syncSlideFromScroll);
+    ro.observe(el);
+    return () => {
+      el.removeEventListener("scroll", syncSlideFromScroll);
+      ro.disconnect();
+    };
+  }, [syncSlideFromScroll, locale]);
 
   const label = isDark ? "text-white" : "text-black";
   const boxOn = isDark ? "border-white bg-white" : "border-black bg-black";
@@ -109,8 +162,20 @@ export default function ProjectQofrinhoPage() {
               </Link>
 
               <div className="flex w-full flex-1 items-center justify-center">
-                <div className="group relative w-[min(100%,720px)] aspect-[778/539] overflow-hidden rounded-[40px]">
-                  <img alt="Qofrinho project cover" className={`absolute inset-0 h-full w-full object-cover${isDark ? " invert" : ""}`} src={qofrinhoCover} />
+                <div
+                  className="group relative w-[min(100%,720px)] aspect-[778/539] overflow-hidden rounded-[40px]"
+                  role="img"
+                  aria-label={qofrinhoSlideAriaLabels[locale][slideIndex]}
+                >
+                  {QOFRINHO_SLIDE_SRC.map((src, i) => (
+                    <img
+                      key={src}
+                      alt=""
+                      aria-hidden
+                      className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ease-out${isDark ? " invert" : ""} ${slideIndex === i ? "opacity-100" : "opacity-0"}`}
+                      src={src}
+                    />
+                  ))}
                   <div className="pointer-events-none absolute inset-0 z-[1] rounded-[40px] bg-black/45 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                   <a
                     href={projectSiteUrls.qofrinho}
@@ -125,89 +190,70 @@ export default function ProjectQofrinhoPage() {
             </div>
 
             <div
-              className={`hide-scrollbar flex min-h-0 w-full flex-1 flex-col items-start gap-[clamp(24px,3.2vmin,54px)] overflow-y-auto overscroll-contain font-['Darker_Grotesque',sans-serif] font-normal leading-normal text-black ${bodySize} sm:w-[min(374px,100%)] sm:max-w-[min(374px,42%)] sm:flex-none sm:shrink-0`}
+              ref={copyScrollRef}
+              className={`hide-scrollbar flex min-h-0 w-full flex-1 flex-col items-start gap-[clamp(36px,4.2vmin,76px)] overflow-y-auto overscroll-contain font-['Darker_Grotesque',sans-serif] font-normal leading-normal text-black ${bodySize} sm:w-[min(374px,100%)] sm:max-w-[min(374px,42%)] sm:flex-none sm:shrink-0`}
             >
               <div className="w-full">
-                <p className="font-bold">Banking app design</p>
+                <p className="font-bold">{copy.introTitle}</p>
               </div>
 
               <div className="w-full">
-                <p className="mt-[0.7em] font-bold">Turning saving into a shared habit.</p>
-                <p className="mt-[0.7em]">
-                  Qofrinho e um aplicativo mobile que transforma o ato de guardar dinheiro em uma experiencia social e gamificada.
-                </p>
+                <p className="mt-[0.7em] font-bold">{copy.introBody}</p>
+                <p className="mt-[0.7em]">{copy.contextP1}</p>
               </div>
 
               <div className="w-full">
-                <p className="font-bold">Contexto</p>
-                <p className="mt-[0.7em]">
-                  Diferente de produtos financeiros tradicionais, o Qofrinho nao lida diretamente com o dinheiro - ele atua como uma camada comportamental, incentivando consistencia atraves de desafios e interacao entre usuarios.
-                </p>
-                <p className="mt-[0.7em]">O foco do produto esta em engajamento, nao em gestao financeira.</p>
+                <p className="font-bold">{copy.contextTitle}</p>
+                <p className="mt-[0.7em]">{copy.contextP2}</p>
               </div>
 
               <div className="w-full">
-                <p className="font-bold">Desafio</p>
+                <p className="font-bold">{copy.challengeTitle}</p>
                 <ul className="mt-[0.7em] list-disc ps-[1.25em]">
-                  <li>Incentivar um habito financeiro sem controlar o dinheiro</li>
-                  <li>Criar engajamento recorrente dentro do app</li>
-                  <li>Tornar a experiencia leve, mesmo com um tema serio</li>
-                  <li>Equilibrar gamificacao com clareza de uso</li>
-                  <li>Construir senso de comunidade entre usuarios</li>
+                  {copy.challengeItems.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
                 </ul>
               </div>
 
               <div className="w-full">
-                <p className="font-bold">Abordagem</p>
-                <p className="mt-[0.7em]">O projeto foi conduzido com foco em tres pilares:</p>
-                <p className="mt-[0.7em]">
-                  <span className="font-bold">Comportamento primeiro</span>
-                  <br />
-                  A experiencia foi desenhada para incentivar consistencia e repeticao.
-                </p>
-                <p className="mt-[0.7em]">
-                  <span className="font-bold">Gamificacao leve</span>
-                  <br />
-                  Elementos de jogo aplicados sem comprometer clareza e usabilidade.
-                </p>
-                <p className="mt-[0.7em]">
-                  <span className="font-bold">Social como motor</span>
-                  <br />
-                  Interacoes entre usuarios como principal fator de engajamento.
-                </p>
+                <p className="font-bold">{copy.approachTitle}</p>
+                <p className="mt-[0.7em]">{copy.approachIntro}</p>
+                {copy.approachPillars.map((pillar) => (
+                  <p key={pillar.label} className="mt-[0.7em]">
+                    <span className="font-bold">{pillar.label}</span>
+                    <br />
+                    {pillar.body}
+                  </p>
+                ))}
               </div>
 
               <div className="w-full">
-                <p className="font-bold">Solucao</p>
+                <p className="font-bold">{copy.solutionTitle}</p>
                 <ul className="mt-[0.7em] list-disc ps-[1.25em]">
-                  <li>Fluxo de criacao de desafios entre amigos</li>
-                  <li>Sistema de comprovacao de economia com evidencias</li>
-                  <li>Interface leve, com foco em simplicidade e acao rapida</li>
-                  <li>Elementos visuais que reforcam progresso e consistencia</li>
-                  <li>Estrutura pensada para uso frequente e rapido</li>
+                  {copy.solutionItems.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
                 </ul>
               </div>
 
               <div className="w-full">
-                <p className="font-bold">Resultado</p>
+                <p className="font-bold">{copy.resultTitle}</p>
                 <ul className="mt-[0.7em] list-disc ps-[1.25em]">
-                  <li>Maior engajamento recorrente dos usuarios</li>
-                  <li>Estimulo consistente ao habito de guardar dinheiro</li>
-                  <li>Experiencia diferenciada dentro do contexto financeiro</li>
-                  <li>Base solida para evolucao social e gamificada</li>
+                  {copy.resultItems.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
                 </ul>
               </div>
 
               <div className="w-full">
-                <p className="font-bold">Meu papel</p>
-                <p className="mt-[0.7em]">UX/UI Designer</p>
-                <p className="mt-[0.7em]">
-                  Atuei na concepcao do produto, definicao da experiencia e construcao da interface, focando em comportamento, engajamento e simplicidade.
-                </p>
+                <p className="font-bold">{copy.roleTitle}</p>
+                <p className="mt-[0.7em]">{copy.roleName}</p>
+                <p className="mt-[0.7em]">{copy.roleBody}</p>
               </div>
 
               <Link to="/projects" className="w-full font-bold no-underline text-inherit hover:opacity-80">
-                {"PROXIMO PROJETO>"}
+                {copy.nextProject}
               </Link>
             </div>
           </div>
