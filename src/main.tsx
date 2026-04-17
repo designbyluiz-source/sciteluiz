@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router";
 import App from "./app/App.tsx";
 import AboutPage from "./app/AboutPage.tsx";
+import { DesktopCameraNavigation } from "./app/components/DesktopCameraNavigation.tsx";
 import ProjectGlobalDexPage from "./app/ProjectGlobalDexPage.tsx";
 import ProjectGates2BPage from "./app/ProjectGates2BPage.tsx";
 import ProjectQofrinhoPage from "./app/ProjectQofrinhoPage.tsx";
@@ -31,6 +32,7 @@ function RoutesWithPreloader() {
         <Route path="/contact" element={<App />} />
         <Route path="/" element={<App />} />
       </Routes>
+      <DesktopCameraNavigation />
       {!preloaderDone ? <WelcomePreloader onComplete={handlePreloaderComplete} /> : null}
     </>
   );

@@ -165,6 +165,7 @@ export default function ProjectQofrinhoPage() {
               <div className="relative flex w-full min-h-0 flex-1 flex-col items-center justify-center gap-[clamp(10px,2.5vmin,20px)] sm:gap-0">
                 <div
                   className="group relative w-[min(100%,720px)] aspect-[778/539] overflow-hidden rounded-[40px]"
+                  data-camera-hover-target
                   role="img"
                   aria-label={qofrinhoSlideAriaLabels[locale][slideIndex]}
                 >
@@ -177,12 +178,12 @@ export default function ProjectQofrinhoPage() {
                       src={src}
                     />
                   ))}
-                  <div className="pointer-events-none absolute inset-0 z-[1] rounded-[40px] bg-black/45 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                  <div className="pointer-events-none absolute inset-0 z-[1] rounded-[40px] bg-black/45 opacity-0 transition-opacity duration-300 group-hover:opacity-100 data-[camera-hovered=true]:opacity-100" />
                   <a
                     href={projectSiteUrls.qofrinho}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="absolute left-1/2 top-1/2 z-[2] -translate-x-1/2 -translate-y-1/2 rounded-full border border-white px-[clamp(16px,1.6vmin,24px)] py-[clamp(7px,0.8vmin,11px)] font-['Darker_Grotesque',sans-serif] text-[clamp(1rem,1.6vmin,1.3rem)] font-bold uppercase tracking-wide text-white no-underline opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                    className="absolute left-1/2 top-1/2 z-[2] -translate-x-1/2 -translate-y-1/2 rounded-full border border-white px-[clamp(16px,1.6vmin,24px)] py-[clamp(7px,0.8vmin,11px)] font-['Darker_Grotesque',sans-serif] text-[clamp(1rem,1.6vmin,1.3rem)] font-bold uppercase tracking-wide text-white no-underline opacity-0 transition-opacity duration-300 group-hover:opacity-100 data-[camera-hovered=true]:opacity-100"
                   >
                     QOFRINHO
                   </a>

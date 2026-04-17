@@ -183,6 +183,7 @@ export default function ProjectGlobalDexPage() {
               <div className="relative flex w-full min-h-0 flex-1 flex-col items-center justify-center gap-[clamp(10px,2.5vmin,20px)] sm:gap-0">
                 <div
                   className="group relative w-[min(100%,720px)] aspect-[778/539] overflow-hidden rounded-[40px]"
+                  data-camera-hover-target
                   data-node-id="30:86"
                   role="img"
                   aria-label={globaldexSlideAriaLabels[locale][slideIndex]}
@@ -196,8 +197,8 @@ export default function ProjectGlobalDexPage() {
                       src={src}
                     />
                   ))}
-                  <div className="pointer-events-none absolute inset-0 z-[1] rounded-[40px] bg-black/45 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                  <div className="absolute left-1/2 top-1/2 z-[2] flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-[clamp(10px,1.1vmin,14px)] opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <div className="pointer-events-none absolute inset-0 z-[1] rounded-[40px] bg-black/45 opacity-0 transition-opacity duration-300 group-hover:opacity-100 data-[camera-hovered=true]:opacity-100" />
+                  <div className="absolute left-1/2 top-1/2 z-[2] flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-[clamp(10px,1.1vmin,14px)] opacity-0 transition-opacity duration-300 group-hover:opacity-100 data-[camera-hovered=true]:opacity-100">
                     <a
                       href={projectSiteUrls.globaldex}
                       target="_blank"
