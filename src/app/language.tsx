@@ -11,7 +11,7 @@ import {
 export type Locale = "pt-BR" | "en" | "es";
 
 const STORAGE_KEY = "site-locale";
-const ORDER: Locale[] = ["pt-BR", "en", "es"];
+const ORDER: Locale[] = ["en", "pt-BR", "es"];
 
 const MESSAGES = {
   "pt-BR": {
@@ -199,7 +199,7 @@ function readStoredLocale(): Locale {
   } catch {
     /* ignore */
   }
-  return "pt-BR";
+  return "en";
 }
 
 type LanguageContextValue = {
@@ -213,7 +213,7 @@ const LanguageContext = createContext<LanguageContextValue | null>(null);
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>(() =>
-    typeof window !== "undefined" ? readStoredLocale() : "pt-BR",
+    typeof window !== "undefined" ? readStoredLocale() : "en",
   );
 
   const setLocale = useCallback((l: Locale) => {
